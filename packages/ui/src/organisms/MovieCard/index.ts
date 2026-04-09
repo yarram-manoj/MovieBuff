@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Movie } from '@repo/api';
 
 export interface MovieCardProps {
@@ -9,8 +8,6 @@ export interface MovieCardProps {
 
 /**
  * MovieCard Organism
- * Complex component displaying movie information
+ * Default export for backward compatibility
  */
 export { MovieCard } from './MovieCard.web';
-export { MovieCard as default } from './MovieCard.web';
-export type { MovieCardProps };

@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Pressable,
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Movie } from '@repo/api';
+import { i18n } from '../../shared/i18n';
 import { MovieCard } from '../MovieCard/MovieCard.native';
 
 export interface WatchlistScreenProps {
@@ -65,11 +59,11 @@ export const WatchlistScreen: React.FC<WatchlistScreenProps> = ({
       <View style={styles.container}>
         {onBack && (
           <Pressable onPress={onBack} style={styles.backButton}>
-            <Text style={styles.backText}>← Back</Text>
+            <Text style={styles.backText}>← {i18n.common.back}</Text>
           </Pressable>
         )}
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No movies in your watchlist yet</Text>
+          <Text style={styles.emptyText}>{i18n.watchlist.empty}</Text>
         </View>
       </View>
     );
@@ -79,7 +73,7 @@ export const WatchlistScreen: React.FC<WatchlistScreenProps> = ({
     <View style={styles.container}>
       {onBack && (
         <Pressable onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backText}>← Back</Text>
+          <Text style={styles.backText}>← {i18n.common.back}</Text>
         </Pressable>
       )}
       <FlatList

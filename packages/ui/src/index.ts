@@ -24,5 +24,6 @@ export {
   type MovieDetailProps,
 } from './organisms/MovieDetail';
 
-// Shared Types
+// Shared Icons, Types & Constants
 export type { RatingProps, GenreTagProps } from './shared/types';
+export { COLORS, TYPOGRAPHY, SPACING, BORDER_RADIUS, i18n } from './shared';

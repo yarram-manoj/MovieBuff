@@ -25,3 +25,5 @@ export {
   WatchlistScreen,
   type WatchlistScreenProps,
 } from './organisms/WatchlistScreen/WatchlistScreen.native';
+export { i18n, getLocale, type Locale } from './shared/i18n';
+export { ICONS, ASSET_PATHS, getIcon, type IconName } from './shared/assets';

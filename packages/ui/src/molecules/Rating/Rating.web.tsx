@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { COMPONENT_STYLES, TYPOGRAPHY, SPACING } from '../../shared/constants';
 
 export interface RatingProps {
   rating: number;
@@ -24,15 +25,15 @@ const styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: `${SPACING.MD}px`,
   },
   rating: {
-    fontSize: '18px',
-    fontWeight: '600',
-    color: '#FFB800',
+    fontSize: `${COMPONENT_STYLES.rating.fontSize}px`,
+    fontWeight: COMPONENT_STYLES.rating.fontWeight,
+    color: COMPONENT_STYLES.rating.color,
   },
   votes: {
-    fontSize: '14px',
-    color: '#666',
+    fontSize: `${TYPOGRAPHY.FONT_SIZE.BASE}px`,
+    color: COMPONENT_STYLES.ratingVotes.color,
   },
 };

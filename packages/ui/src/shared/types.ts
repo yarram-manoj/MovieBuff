@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Movie } from '@repo/api';
 
 /**
@@ -7,7 +7,7 @@ import { Movie } from '@repo/api';
 
 export interface ButtonProps {
   text: string;
-  onClick?: (event: any) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface MovieCardProps {
@@ -17,7 +17,7 @@ export interface MovieCardProps {
 }
 
 export interface MovieDetailProps {
-  movie: any;
+  movie: Movie;
   onBack?: () => void;
   isLoading?: boolean;
 }

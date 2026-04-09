@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { COMPONENT_STYLES, SPACING, TYPOGRAPHY } from '../../shared/constants';
 
 export interface RatingProps {
   rating: number;
@@ -25,15 +26,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: SPACING.MD,
   },
   rating: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#FFB800',
+    fontSize: COMPONENT_STYLES.rating.fontSize,
+    fontWeight: COMPONENT_STYLES.rating.fontWeight,
+    color: COMPONENT_STYLES.rating.color,
   },
   votes: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    color: COMPONENT_STYLES.ratingVotes.color,
   },
 });

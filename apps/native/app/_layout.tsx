@@ -8,6 +8,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <Stack
+        initialRouteName="splash"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#667eea',
@@ -20,6 +21,12 @@ export default function RootLayout() {
           headerBackTitle: 'Back',
         }}
       >
+        <Stack.Screen
+          name="splash"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="index"
           options={{

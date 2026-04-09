@@ -18,7 +18,6 @@ export interface MovieCardProps {
  */
 export const MovieCard = React.memo<MovieCardProps>(
   ({ movie, onPress, isLoading = false }) => {
-    const [imageLoading, setImageLoading] = React.useState(true);
     const movieClient = useMovieClient();
     const posterUrl = movieClient.getImageUrl(
       movie.poster_path,
@@ -42,8 +41,8 @@ export const MovieCard = React.memo<MovieCardProps>(
               src={posterUrl}
               alt={movie.title}
               className={styles.poster}
-              onLoad={() => setImageLoading(false)}
-              onError={() => setImageLoading(false)}
+              onLoad={() => {}}
+              onError={() => {}}
             />
           ) : (
             <div className={styles.placeholderImage}>

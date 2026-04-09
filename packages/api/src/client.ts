@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 import {
-  Movie,
   MovieDetails,
   MovieListResponse,
   GenreListResponse,
@@ -197,7 +196,7 @@ export class TheMovieDBClient {
   /**
    * Handle API errors
    */
-  private handleError(error: any): Error {
+  private handleError(error: unknown): Error {
     if (axios.isAxiosError(error)) {
       const apiError: ApiError = error.response?.data || {};
       const message =

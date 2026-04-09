@@ -30,7 +30,6 @@ export const MovieDetail = React.memo<MovieDetailProps>(
   ({
     movie,
     onBack,
-    isLoading = false,
     isInWatchlist = false,
     onWatchlistToggle,
   }) => {

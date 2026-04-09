@@ -3,17 +3,14 @@
  * Platform-specific exports for web applications
  */
 
-export { default as Button, type ButtonProps } from './atoms/Button/Button.web';
+export { Button, type ButtonProps } from './atoms/Button/Button.web';
 export {
   WatchlistButton,
   type WatchlistButtonProps,
 } from './atoms/WatchlistButton/WatchlistButton.web';
+export { Rating, type RatingProps } from './molecules/Rating/Rating.web';
 export {
-  default as Rating,
-  type RatingProps,
-} from './molecules/Rating/Rating.web';
-export {
-  default as GenreTag,
+  GenreTag,
   type GenreTagProps,
 } from './molecules/GenreTag/GenreTag.web';
 export {
@@ -28,3 +25,5 @@ export {
   WatchlistScreen,
   type WatchlistScreenProps,
 } from './organisms/WatchlistScreen/WatchlistScreen.web';
+export { i18n, getLocale, type Locale } from './shared/i18n';
+export { ICONS, ASSET_PATHS, getIcon, type IconName } from './shared/assets';

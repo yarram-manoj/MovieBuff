@@ -6,6 +6,8 @@
     "jsx": "react",
     "lib": ["DOM", "ESNext"],
     "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "target": "ESNext"
   }

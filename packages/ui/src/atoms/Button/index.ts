@@ -1,13 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 
 export interface ButtonProps {
   text: string;
-  onClick?: (event: any) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 /**
- * Button - Native implementation
- * Basic button component for React Native
+ * Button - Platform-agnostic export
+ * Default export for backward compatibility
  */
-export { Button as default } from './Button.native';
-export type { ButtonProps };
+export { Button } from './Button.web';

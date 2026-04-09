@@ -1,4 +1,5 @@
 import React from 'react';
+import { i18n } from '../../shared/i18n';
 import styles from './WatchlistButton.web.module.css';
 
 export interface WatchlistButtonProps {
@@ -17,7 +18,7 @@ export const WatchlistButton: React.FC<WatchlistButtonProps> = ({
       }`}
       onClick={onPress || (() => {})}
     >
-      {isInWatchlist ? '★ In Watchlist' : '☆ Add to Watchlist'}
+      {isInWatchlist ? i18n.watchlist.addedButton : i18n.watchlist.addButton}
     </button>
   );
 };

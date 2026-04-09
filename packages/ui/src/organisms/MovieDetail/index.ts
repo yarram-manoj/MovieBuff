@@ -1,14 +1,13 @@
-import * as React from 'react';
+import { Movie } from '@repo/api';
 
 export interface MovieDetailProps {
-  movie: any;
+  movie: Movie;
   onBack?: () => void;
   isLoading?: boolean;
 }
 
 /**
  * MovieDetail Organism
- * Complex component displaying detailed movie information
+ * Default export for backward compatibility
  */
-export { MovieDetail as default } from './MovieDetail.web';
-export type { MovieDetailProps };
+export { MovieDetail } from './MovieDetail.web';

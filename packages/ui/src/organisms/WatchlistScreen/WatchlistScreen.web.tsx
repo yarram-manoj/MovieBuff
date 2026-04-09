@@ -1,5 +1,6 @@
 import React from 'react';
 import { Movie } from '@repo/api';
+import { i18n } from '../../shared/i18n';
 import { MovieCard } from '../MovieCard';
 import styles from './WatchlistScreen.web.module.css';
 
@@ -21,12 +22,12 @@ export const WatchlistScreen: React.FC<WatchlistScreenProps> = ({
         {onBack && (
           <div className={styles.headerContainer}>
             <button className={styles.backButton} onClick={onBack}>
-              ← Back
+              ← {i18n.common.back}
             </button>
           </div>
         )}
         <div className={styles.emptyContainer}>
-          <p className={styles.emptyText}>No movies in your watchlist yet</p>
+          <p className={styles.emptyText}>{i18n.watchlist.empty}</p>
         </div>
       </div>
     );
@@ -37,11 +38,11 @@ export const WatchlistScreen: React.FC<WatchlistScreenProps> = ({
       {onBack && (
         <div className={styles.headerContainer}>
           <button className={styles.backButton} onClick={onBack}>
-            ← Back
+            ← {i18n.common.back}
           </button>
         </div>
       )}
-      <h1 className={styles.header}>My Watchlist</h1>
+      <h1 className={styles.header}>{i18n.watchlist.title}</h1>
       <div className={styles.grid}>
         {movies.map((movie) => (
           <div

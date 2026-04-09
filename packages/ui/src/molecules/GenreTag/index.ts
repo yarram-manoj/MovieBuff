@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export interface GenreTagProps {
   name: string;
   onClick?: () => void;
@@ -7,7 +5,6 @@ export interface GenreTagProps {
 
 /**
  * GenreTag Molecule
- * Displays genre label
+ * Default export for backward compatibility
  */
-export { GenreTag as default } from './GenreTag.web';
-export type { GenreTagProps };
+export { GenreTag } from './GenreTag.web';
