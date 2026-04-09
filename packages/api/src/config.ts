@@ -15,10 +15,10 @@ export interface ApiConfig {
  */
 function getEnvVar(key: string): string {
   if (typeof process === 'undefined') return '';
-  
+
   const nextPubKey = `NEXT_PUBLIC_${key}`;
   const expoPubKey = `EXPO_PUBLIC_${key}`;
-  
+
   return process.env[nextPubKey] || process.env[expoPubKey] || '';
 }
 
@@ -29,7 +29,8 @@ export function loadApiConfig(): ApiConfig {
   const config: ApiConfig = {
     apiKey: getEnvVar('TMDB_API_KEY'),
     baseUrl: getEnvVar('TMDB_API_BASE_URL') || 'https://api.themoviedb.org/3',
-    imageBaseUrl: getEnvVar('TMDB_IMAGE_BASE_URL') || 'https://image.tmdb.org/t/p',
+    imageBaseUrl:
+      getEnvVar('TMDB_IMAGE_BASE_URL') || 'https://image.tmdb.org/t/p',
   };
 
   if (!config.apiKey) {

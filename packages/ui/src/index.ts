@@ -1,6 +1,6 @@
 /**
  * Main Export File - Atomic Design Structure
- * 
+ *
  * Structure:
  * - atoms: Basic building blocks (Button)
  * - molecules: Combinations of atoms (Rating, GenreTag)
@@ -15,8 +15,14 @@ export { default as Rating, type RatingProps } from './molecules/Rating';
 export { default as GenreTag, type GenreTagProps } from './molecules/GenreTag';
 
 // Organisms
-export { default as MovieCard, type MovieCardProps } from './organisms/MovieCard';
-export { default as MovieDetail, type MovieDetailProps } from './organisms/MovieDetail';
+export {
+  default as MovieCard,
+  type MovieCardProps,
+} from './organisms/MovieCard';
+export {
+  default as MovieDetail,
+  type MovieDetailProps,
+} from './organisms/MovieDetail';
 
 // Shared Types
 export type { RatingProps, GenreTagProps } from './shared/types';

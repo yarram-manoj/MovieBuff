@@ -20,7 +20,10 @@ export const MovieCard = React.memo<MovieCardProps>(
   ({ movie, onPress, isLoading = false }) => {
     const [imageLoading, setImageLoading] = React.useState(true);
     const movieClient = useMovieClient();
-    const posterUrl = movieClient.getImageUrl(movie.poster_path, IMAGE_SIZES.POSTER_SMALL);
+    const posterUrl = movieClient.getImageUrl(
+      movie.poster_path,
+      IMAGE_SIZES.POSTER_SMALL
+    );
 
     const handleClick = React.useCallback(() => {
       onPress?.(movie);

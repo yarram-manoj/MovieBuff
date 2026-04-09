@@ -17,7 +17,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "devDependencies": {
     "@repo/typescript-config": "*",

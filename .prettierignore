@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.next/
+.expo/
+coverage/
+*.pem
+.env*
+!.env.example
+!.env.local.example

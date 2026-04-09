@@ -2,37 +2,37 @@ module.exports = {
   reactStrictMode: true,
   turbopack: {
     resolveAlias: {
-      "react-native$": "react-native-web",
-      "react-native/": "react-native-web/",
+      'react-native$': 'react-native-web',
+      'react-native/': 'react-native-web/',
     },
     resolveExtensions: [
-      ".web.js",
-      ".web.jsx",
-      ".web.ts",
-      ".web.tsx",
-      ".js",
-      ".jsx",
-      ".ts",
-      ".tsx",
-      ".json",
+      '.web.js',
+      '.web.jsx',
+      '.web.ts',
+      '.web.tsx',
+      '.js',
+      '.jsx',
+      '.ts',
+      '.tsx',
+      '.json',
     ],
   },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      "react-native$": "react-native-web",
-      "react-native/": "react-native-web/",
+      'react-native$': 'react-native-web',
+      'react-native/': 'react-native-web/',
     };
     config.resolve.extensions = [
-      ".web.js",
-      ".web.jsx",
-      ".web.ts",
-      ".web.tsx",
+      '.web.js',
+      '.web.jsx',
+      '.web.ts',
+      '.web.tsx',
       ...config.resolve.extensions,
     ];
     config.externals = {
       ...config.externals,
-      "react-native": "react-native-web",
+      'react-native': 'react-native-web',
     };
     return config;
   },

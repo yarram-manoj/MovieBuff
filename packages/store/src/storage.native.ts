@@ -2,7 +2,6 @@
  * Storage utilities for Native (AsyncStorage)
  */
 
-// @ts-ignore - AsyncStorage types are optional in store package
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface StorageAPI {
@@ -18,7 +17,9 @@ export const getStorage = async (): Promise<StorageAPI> => {
 
 function createNullStorage(): StorageAPI {
   return {
-    async getItem() { return null; },
+    async getItem() {
+      return null;
+    },
     async setItem() {},
     async removeItem() {},
     async clear() {},

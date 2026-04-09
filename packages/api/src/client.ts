@@ -17,11 +17,11 @@ export class TheMovieDBClient {
 
   constructor(apiKey: string, config?: Partial<ApiConfig>) {
     const apiConfig = { ...loadApiConfig(), ...config };
-    
+
     this.apiKey = apiKey || apiConfig.apiKey;
     this.baseUrl = apiConfig.baseUrl || 'https://api.themoviedb.org/3';
     this.imageBaseUrl = apiConfig.imageBaseUrl || 'https://image.tmdb.org/t/p';
-    
+
     this.client = axios.create({
       baseURL: this.baseUrl,
       params: {
@@ -35,9 +35,12 @@ export class TheMovieDBClient {
    */
   async getPopularMovies(page: number = 1): Promise<MovieListResponse> {
     try {
-      const response = await this.client.get<MovieListResponse>('/movie/popular', {
-        params: { page },
-      });
+      const response = await this.client.get<MovieListResponse>(
+        '/movie/popular',
+        {
+          params: { page },
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -49,9 +52,12 @@ export class TheMovieDBClient {
    */
   async getNowPlayingMovies(page: number = 1): Promise<MovieListResponse> {
     try {
-      const response = await this.client.get<MovieListResponse>('/movie/now_playing', {
-        params: { page },
-      });
+      const response = await this.client.get<MovieListResponse>(
+        '/movie/now_playing',
+        {
+          params: { page },
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -63,9 +69,12 @@ export class TheMovieDBClient {
    */
   async getUpcomingMovies(page: number = 1): Promise<MovieListResponse> {
     try {
-      const response = await this.client.get<MovieListResponse>('/movie/upcoming', {
-        params: { page },
-      });
+      const response = await this.client.get<MovieListResponse>(
+        '/movie/upcoming',
+        {
+          params: { page },
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -77,9 +86,12 @@ export class TheMovieDBClient {
    */
   async getTopRatedMovies(page: number = 1): Promise<MovieListResponse> {
     try {
-      const response = await this.client.get<MovieListResponse>('/movie/top_rated', {
-        params: { page },
-      });
+      const response = await this.client.get<MovieListResponse>(
+        '/movie/top_rated',
+        {
+          params: { page },
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -126,11 +138,17 @@ export class TheMovieDBClient {
   /**
    * Search movies
    */
-  async searchMovies(query: string, page: number = 1): Promise<MovieListResponse> {
+  async searchMovies(
+    query: string,
+    page: number = 1
+  ): Promise<MovieListResponse> {
     try {
-      const response = await this.client.get<MovieListResponse>('/search/movie', {
-        params: { query, page },
-      });
+      const response = await this.client.get<MovieListResponse>(
+        '/search/movie',
+        {
+          params: { query, page },
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -142,7 +160,8 @@ export class TheMovieDBClient {
    */
   async getGenres(): Promise<GenreListResponse> {
     try {
-      const response = await this.client.get<GenreListResponse>('/genre/movie/list');
+      const response =
+        await this.client.get<GenreListResponse>('/genre/movie/list');
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -152,7 +171,10 @@ export class TheMovieDBClient {
   /**
    * Get poster URL
    */
-  getImageUrl(path: string | null, size: 'w342' | 'w500' | 'w780' | 'original' = 'w342'): string {
+  getImageUrl(
+    path: string | null,
+    size: 'w342' | 'w500' | 'w780' | 'original' = 'w342'
+  ): string {
     if (!path) {
       return '';
     }
@@ -162,7 +184,10 @@ export class TheMovieDBClient {
   /**
    * Get backdrop URL
    */
-  getBackdropUrl(path: string | null, size: 'w780' | 'w1280' | 'original' = 'w780'): string {
+  getBackdropUrl(
+    path: string | null,
+    size: 'w780' | 'w1280' | 'original' = 'w780'
+  ): string {
     if (!path) {
       return '';
     }

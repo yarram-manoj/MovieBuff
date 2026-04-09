@@ -8,7 +8,9 @@ import type { RootState, AppDispatch } from '@repo/store';
 export default function WatchlistScreen_() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { movies, loading } = useSelector((state: RootState) => state.watchlist);
+  const { movies, loading } = useSelector(
+    (state: RootState) => state.watchlist
+  );
 
   // Load watchlist on mount
   useEffect(() => {

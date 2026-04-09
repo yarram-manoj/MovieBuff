@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export const WatchlistButton = React.memo<WatchlistButtonProps>(({
+const WatchlistButtonComponent = ({
   isInWatchlist,
   onPress,
-}) => {
+}: WatchlistButtonProps) => {
   return (
     <TouchableOpacity
       style={[
@@ -55,4 +55,10 @@ export const WatchlistButton = React.memo<WatchlistButtonProps>(({
       </Text>
     </TouchableOpacity>
   );
-});
+};
+
+WatchlistButtonComponent.displayName = 'WatchlistButton';
+
+export const WatchlistButton = React.memo<WatchlistButtonProps>(
+  WatchlistButtonComponent
+);

@@ -54,7 +54,7 @@ const watchlistSlice = createSlice({
      * Add movie to watchlist (in-memory)
      */
     addToWatchlist: (state, action: PayloadAction<Movie>) => {
-      const exists = state.movies.some(m => m.id === action.payload.id);
+      const exists = state.movies.some((m) => m.id === action.payload.id);
       if (!exists) {
         state.movies.push(action.payload);
         state.error = null;
@@ -65,7 +65,7 @@ const watchlistSlice = createSlice({
      * Remove movie from watchlist (in-memory)
      */
     removeFromWatchlist: (state, action: PayloadAction<number>) => {
-      state.movies = state.movies.filter(m => m.id !== action.payload);
+      state.movies = state.movies.filter((m) => m.id !== action.payload);
       state.error = null;
     },
 

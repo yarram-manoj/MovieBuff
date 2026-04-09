@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import {
   View,
   ScrollView,
@@ -8,17 +14,13 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "expo-router";
-import { MovieCard } from "@repo/ui";
-import {
-  fetchMovies,
-  searchMovies,
-  clearSelectedMovie,
-} from "@repo/store";
-import type { AppDispatch, RootState } from "@repo/store";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'expo-router';
+import { MovieCard } from '@repo/ui';
+import { fetchMovies, searchMovies, clearSelectedMovie } from '@repo/store';
+import type { AppDispatch, RootState } from '@repo/store';
 
 // Calculate item height: aspect ratio 2/3 means height = width * 1.5
 // For 2 columns with 12px gap: (width - 6) / 2 per item, with padding
@@ -31,9 +33,9 @@ export default function MoviesScreen() {
     useSelector((state: RootState) => state.movies);
 
   const [selectedCategory, setSelectedCategory] = useState<
-    "popular" | "now_playing" | "upcoming" | "top_rated"
-  >("popular");
-  const [searchQuery, setSearchQuery] = useState("");
+    'popular' | 'now_playing' | 'upcoming' | 'top_rated'
+  >('popular');
+  const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const isFetchingRef = useRef(false);
   const lastLoadTimeRef = useRef(0);
@@ -72,12 +74,13 @@ export default function MoviesScreen() {
 
   // Memoize category buttons
   const categoryButtons = useMemo(
-    () => [
-      { id: "popular", label: "Popular" },
-      { id: "now_playing", label: "Now Playing" },
-      { id: "upcoming", label: "Upcoming" },
-      { id: "top_rated", label: "Top Rated" },
-    ] as const,
+    () =>
+      [
+        { id: 'popular', label: 'Popular' },
+        { id: 'now_playing', label: 'Now Playing' },
+        { id: 'upcoming', label: 'Upcoming' },
+        { id: 'top_rated', label: 'Top Rated' },
+      ] as const,
     []
   );
 
@@ -88,10 +91,7 @@ export default function MoviesScreen() {
         style={styles.cardWrapper}
         onPress={() => handleMovieClick(item.id)}
       >
-        <MovieCard
-          movie={item}
-          onPress={() => handleMovieClick(item.id)}
-        />
+        <MovieCard movie={item} onPress={() => handleMovieClick(item.id)} />
       </Pressable>
     ),
     [handleMovieClick]
@@ -105,11 +105,15 @@ export default function MoviesScreen() {
     // Prevent duplicate requests: check fetch in progress and cooldown
     const now = Date.now();
     const timeSinceLastLoad = now - lastLoadTimeRef.current;
-    
-    if (isFetchingRef.current || page >= totalPages || timeSinceLastLoad < 500) {
+
+    if (
+      isFetchingRef.current ||
+      page >= totalPages ||
+      timeSinceLastLoad < 500
+    ) {
       return;
     }
-    
+
     isFetchingRef.current = true;
     lastLoadTimeRef.current = now;
     setPage((prevPage) => prevPage + 1);
@@ -122,7 +126,9 @@ export default function MoviesScreen() {
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>Discover Movies from Around the World</Text>
+            <Text style={styles.subtitleText}>
+              Discover Movies from Around the World
+            </Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
@@ -156,7 +162,9 @@ export default function MoviesScreen() {
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>Discover Movies from Around the World</Text>
+            <Text style={styles.subtitleText}>
+              Discover Movies from Around the World
+            </Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
@@ -178,10 +186,7 @@ export default function MoviesScreen() {
         <View style={styles.loaderContainer}>
           <View style={styles.errorContainer}>
             <Text style={styles.error}>{error}</Text>
-            <Pressable
-              style={styles.retryButton}
-              onPress={() => setPage(1)}
-            >
+            <Pressable style={styles.retryButton} onPress={() => setPage(1)}>
               <Text style={styles.retryButtonText}>Retry</Text>
             </Pressable>
           </View>
@@ -197,7 +202,9 @@ export default function MoviesScreen() {
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>Discover Movies from Around the World</Text>
+            <Text style={styles.subtitleText}>
+              Discover Movies from Around the World
+            </Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
@@ -229,7 +236,9 @@ export default function MoviesScreen() {
       <View style={styles.headerSection}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>MovieBuff</Text>
-          <Text style={styles.subtitleText}>Discover Movies from Around the World</Text>
+          <Text style={styles.subtitleText}>
+            Discover Movies from Around the World
+          </Text>
         </View>
 
         <Pressable
@@ -316,92 +325,92 @@ export default function MoviesScreen() {
 
 const styles = StyleSheet.create({
   headerSection: {
-    backgroundColor: "#667eea",
+    backgroundColor: '#667eea',
   },
   titleContainer: {
     paddingHorizontal: 20,
     paddingVertical: 12,
-    backgroundColor: "#667eea",
-    alignItems: "center",
+    backgroundColor: '#667eea',
+    alignItems: 'center',
   },
   titleText: {
     fontSize: 42,
-    fontWeight: "800",
-    color: "#fff",
+    fontWeight: '800',
+    color: '#fff',
     marginBottom: 8,
     letterSpacing: -0.5,
-    textAlign: "center",
+    textAlign: 'center',
   },
   subtitleText: {
     fontSize: 16,
-    fontWeight: "500",
-    color: "rgba(255, 255, 255, 0.95)",
-    textAlign: "center",
+    fontWeight: '500',
+    color: 'rgba(255, 255, 255, 0.95)',
+    textAlign: 'center',
   },
   watchlistLink: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginVertical: 8,
-    alignSelf: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    alignSelf: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 8,
   },
   watchlistLinkText: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#fff",
+    fontWeight: '600',
+    color: '#fff',
   },
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   searchInput: {
-    width: "100%",
+    width: '100%',
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 28,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: '#f5f5f5',
     fontSize: 16,
-    color: "#333",
+    color: '#333',
     borderWidth: 2,
-    borderColor: "#e0e0e0",
+    borderColor: '#e0e0e0',
   },
   categoryContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: '#f0f0f0',
   },
   categoryContent: {
     paddingHorizontal: 16,
     paddingVertical: 16,
     gap: 12,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   categoryButton: {
     paddingHorizontal: 24,
     paddingVertical: 11,
     borderRadius: 24,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderWidth: 2,
-    borderColor: "#e0e0e0",
-    height: "auto",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#e0e0e0',
+    height: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
     flexShrink: 0,
   },
   categoryButtonActive: {
-    backgroundColor: "#667eea",
-    borderColor: "#667eea",
+    backgroundColor: '#667eea',
+    borderColor: '#667eea',
   },
   categoryButtonText: {
     fontSize: 15,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: '600',
+    color: '#333',
   },
   categoryButtonTextActive: {
-    color: "#fff",
+    color: '#fff',
   },
   contentContainer: {
     paddingHorizontal: 12,
@@ -414,64 +423,64 @@ const styles = StyleSheet.create({
   },
   row: {
     gap: 12,
-    justifyContent: "space-around",
-    width: "100%",
+    justifyContent: 'space-around',
+    width: '100%',
   },
   loaderContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: 12,
   },
   loadingText: {
     fontSize: 15,
-    color: "#667eea",
-    fontWeight: "600",
+    color: '#667eea',
+    fontWeight: '600',
   },
   footerLoader: {
     paddingVertical: 16,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   emptyText: {
     fontSize: 17,
-    fontWeight: "700",
-    color: "#333",
+    fontWeight: '700',
+    color: '#333',
   },
   emptySubtext: {
     fontSize: 15,
-    color: "#999",
+    color: '#999',
   },
   errorContainer: {
     marginHorizontal: 16,
     marginVertical: 12,
     padding: 16,
-    backgroundColor: "rgba(255, 200, 200, 0.1)",
+    backgroundColor: 'rgba(255, 200, 200, 0.1)',
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: "#ffb3b3",
+    borderColor: '#ffb3b3',
   },
   error: {
-    color: "#d32f2f",
+    color: '#d32f2f',
     fontSize: 15,
     marginBottom: 12,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   retryButton: {
-    alignSelf: "center",
+    alignSelf: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#d32f2f",
+    backgroundColor: '#d32f2f',
     borderRadius: 8,
   },
   retryButtonText: {
-    color: "#fff",
-    fontWeight: "700",
+    color: '#fff',
+    fontWeight: '700',
     fontSize: 14,
   },
   container: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "#667eea",
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#667eea',
   },
 });

@@ -15,13 +15,17 @@ export interface ButtonProps {
  * Button - Native (React Native)
  * Reusable button component for mobile
  */
-export const Button = React.memo<ButtonProps>(({ text, onClick }: ButtonProps) => {
+const ButtonComponent = ({ text, onClick }: ButtonProps) => {
   return (
     <Pressable style={styles.button} onPress={onClick || (() => {})}>
       <Text style={styles.text}>{text}</Text>
     </Pressable>
   );
-});
+};
+
+ButtonComponent.displayName = 'Button';
+
+export const Button = React.memo<ButtonProps>(ButtonComponent);
 
 const styles = StyleSheet.create({
   button: {

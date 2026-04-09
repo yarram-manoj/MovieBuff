@@ -17,23 +17,20 @@ export interface MovieCardProps {
 export const MovieCard = React.memo<MovieCardProps>(
   ({ movie, onPress, isLoading = false }) => {
     const movieClient = useMovieClient();
-    const posterUrl = movieClient.getImageUrl(movie.poster_path, IMAGE_SIZES.POSTER_SMALL);
+    const posterUrl = movieClient.getImageUrl(
+      movie.poster_path,
+      IMAGE_SIZES.POSTER_SMALL
+    );
 
     return (
       <Pressable
-        style={({ pressed }) => [
-          styles.card,
-          pressed && styles.cardPressed,
-        ]}
+        style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         onPress={() => onPress?.(movie)}
         disabled={isLoading}
       >
         <View style={styles.imageContainer}>
           {posterUrl ? (
-            <Image
-              source={{ uri: posterUrl }}
-              style={styles.poster}
-            />
+            <Image source={{ uri: posterUrl }} style={styles.poster} />
           ) : (
             <View style={styles.placeholderImage}>
               <Text style={styles.placeholderText}>No Image</Text>

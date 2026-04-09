@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { View, ScrollView, Text, StyleSheet, Image, Pressable } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+} from 'react-native';
 import { MovieDetails } from '@repo/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMovieClient } from '../../shared/hooks';
@@ -20,10 +27,20 @@ export interface MovieDetailProps {
  * Implements performance optimizations with React.memo and useMemo
  */
 export const MovieDetail = React.memo<MovieDetailProps>(
-  ({ movie, onBack, isLoading = false, isInWatchlist = false, onWatchlistToggle }) => {
+  ({
+    movie,
+    onBack,
+    isLoading = false,
+    isInWatchlist = false,
+    onWatchlistToggle,
+  }) => {
     const movieClient = useMovieClient();
     const backdropUrl = React.useMemo(
-      () => movieClient.getBackdropUrl(movie.backdrop_path, IMAGE_SIZES.BACKDROP_MEDIUM),
+      () =>
+        movieClient.getBackdropUrl(
+          movie.backdrop_path,
+          IMAGE_SIZES.BACKDROP_MEDIUM
+        ),
       [movie.backdrop_path, movieClient]
     );
 
@@ -34,7 +51,10 @@ export const MovieDetail = React.memo<MovieDetailProps>(
 
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Backdrop */}
           {backdropUrl && (
             <Image source={{ uri: backdropUrl }} style={styles.backdrop} />
@@ -58,7 +78,9 @@ export const MovieDetail = React.memo<MovieDetailProps>(
             {/* Title and Rating */}
             <Text style={styles.title}>{movie.title}</Text>
             <View style={styles.ratingContainer}>
-              <Text style={styles.rating}>★ {movie.vote_average.toFixed(1)}</Text>
+              <Text style={styles.rating}>
+                ★ {movie.vote_average.toFixed(1)}
+              </Text>
               <Text style={styles.releaseDate}>
                 {new Date(movie.release_date).getFullYear()}
               </Text>
@@ -127,17 +149,16 @@ export const MovieDetail = React.memo<MovieDetailProps>(
                             />
                           ) : (
                             <View style={styles.castPlaceholder}>
-                              <Text style={styles.castPlaceholderText}>No Image</Text>
+                              <Text style={styles.castPlaceholderText}>
+                                No Image
+                              </Text>
                             </View>
                           )}
                         </View>
                         <Text style={styles.castName} numberOfLines={1}>
                           {actor.name}
                         </Text>
-                        <Text
-                          style={styles.castCharacter}
-                          numberOfLines={1}
-                        >
+                        <Text style={styles.castCharacter} numberOfLines={1}>
                           {actor.character}
                         </Text>
                       </View>

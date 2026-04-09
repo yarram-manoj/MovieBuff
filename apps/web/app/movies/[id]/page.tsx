@@ -1,12 +1,18 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter, useParams } from "next/navigation";
-import { MovieDetail } from "@repo/ui";
-import { fetchMovieDetails, clearSelectedMovie, addToWatchlist, removeFromWatchlist, saveWatchlistToStorage } from "@repo/store";
-import type { AppDispatch, RootState } from "@repo/store";
-import styles from "../../../styles/movie-detail.module.css";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter, useParams } from 'next/navigation';
+import { MovieDetail } from '@repo/ui';
+import {
+  fetchMovieDetails,
+  clearSelectedMovie,
+  addToWatchlist,
+  removeFromWatchlist,
+  saveWatchlistToStorage,
+} from '@repo/store';
+import type { AppDispatch, RootState } from '@repo/store';
+import styles from '../../../styles/movie-detail.module.css';
 
 export default function MovieDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,14 +20,18 @@ export default function MovieDetailPage() {
   const params = useParams();
   const movieId = parseInt(params.id as string, 10);
 
-  const { selectedMovie: movie, loading, error } = useSelector(
-    (state: RootState) => state.movies
-  );
+  const {
+    selectedMovie: movie,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.movies);
   const { movies: watchlistMovies } = useSelector(
     (state: RootState) => state.watchlist
   );
 
-  const isInWatchlist = movie ? watchlistMovies.some((m) => m.id === movie.id) : false;
+  const isInWatchlist = movie
+    ? watchlistMovies.some((m) => m.id === movie.id)
+    : false;
 
   useEffect(() => {
     if (movieId) {
@@ -47,7 +57,7 @@ export default function MovieDetailPage() {
     } else {
       dispatch(addToWatchlist(movie));
     }
-    
+
     // Save to persistent storage
     const updatedWatchlist = isInWatchlist
       ? watchlistMovies.filter((m) => m.id !== movie.id)

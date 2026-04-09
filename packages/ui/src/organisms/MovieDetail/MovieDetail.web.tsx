@@ -21,10 +21,20 @@ export interface MovieDetailProps {
  * Responsive design with focus on content
  */
 export const MovieDetail = React.memo<MovieDetailProps>(
-  ({ movie, onBack, isLoading = false, isInWatchlist = false, onWatchlistToggle }) => {
+  ({
+    movie,
+    onBack,
+    isLoading = false,
+    isInWatchlist = false,
+    onWatchlistToggle,
+  }) => {
     const movieClient = useMovieClient();
     const backdropUrl = React.useMemo(
-      () => movieClient.getBackdropUrl(movie.backdrop_path, IMAGE_SIZES.BACKDROP_MEDIUM),
+      () =>
+        movieClient.getBackdropUrl(
+          movie.backdrop_path,
+          IMAGE_SIZES.BACKDROP_MEDIUM
+        ),
       [movie.backdrop_path, movieClient]
     );
 
@@ -69,7 +79,9 @@ export const MovieDetail = React.memo<MovieDetailProps>(
           {/* Title and Rating */}
           <h1 className={styles.title}>{movie.title}</h1>
           <div className={styles.ratingContainer}>
-            <span className={styles.rating}>★ {movie.vote_average.toFixed(1)}</span>
+            <span className={styles.rating}>
+              ★ {movie.vote_average.toFixed(1)}
+            </span>
             <span className={styles.releaseDate}>
               {new Date(movie.release_date).getFullYear()}
             </span>

@@ -4,7 +4,7 @@
  */
 export function getApiKey(): string {
   if (typeof process === 'undefined') return '';
-  
+
   return (
     process.env.NEXT_PUBLIC_TMDB_API_KEY ||
     process.env.EXPO_PUBLIC_TMDB_API_KEY ||

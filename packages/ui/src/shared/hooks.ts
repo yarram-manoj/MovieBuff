@@ -9,15 +9,16 @@ import { createMovieClient } from '@repo/api';
 export function useMovieClient() {
   return React.useMemo(() => {
     let apiKey = '';
-    
+
     if (typeof process !== 'undefined') {
       // Next.js (web)
-      apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || 
-      // Expo (native)
-               process.env.EXPO_PUBLIC_TMDB_API_KEY || 
-               '';
+      apiKey =
+        process.env.NEXT_PUBLIC_TMDB_API_KEY ||
+        // Expo (native)
+        process.env.EXPO_PUBLIC_TMDB_API_KEY ||
+        '';
     }
-    
+
     return createMovieClient(apiKey);
   }, []);
 }

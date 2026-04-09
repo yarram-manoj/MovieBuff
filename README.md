@@ -16,9 +16,11 @@ A modern, high-performance monorepo application for discovering and exploring mo
 - ♿ **Accessible** - WCAG compliant with keyboard navigation
 - 🧪 **Type Safe** - Full TypeScript support
 - 📦 **Production Ready** - Error handling, loading states, retry logic
+
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js** >= 18 (required)
 - **Yarn** >= 1.22.19 (required)
 - **npm** or **npm cli** for package management
@@ -40,16 +42,19 @@ This command installs dependencies for the root, all apps, and all packages.
 ## 🏃 Running the Project
 
 ### Run Everything (Web + All Packages)
+
 ```bash
 # Build all packages first, then start dev servers
 yarn dev
 ```
 
 This will:
+
 1. Build all packages in `packages/`
 2. Start both web and native development servers
 
 ### Run Web App Only
+
 ```bash
 # Build packages and start Next.js dev server
 yarn dev:web
@@ -58,34 +63,40 @@ yarn dev:web
 Then open http://localhost:3000 in your browser.
 
 **Available web routes:**
+
 - `/` - Home (browse movies)
 - `/movies/[id]` - Movie detail page
 - `/watchlist` - Watchlist screen
 
 ### Run Native App Only
+
 ```bash
 # Build packages and start Expo development server
 yarn dev:native
 ```
 
 Then choose:
+
 - Press `i` for iOS simulator
 - Press `a` for Android emulator
 - Press `w` for web preview
 - Scan QR code with Expo Go app on physical device
 
 **Available mobile screens:**
+
 - Home - Browse and search movies
 - `movies/[id]` - Movie detail screen
 - Watchlist tab - View saved watchlist
 
 ### Run Only Packages (Development Mode)
+
 ```bash
 # Build and watch packages for changes
 yarn dev:packages
 ```
 
 ### Dependencies Not Installed Properly
+
 ```bash
 # Clean and reinstall
 yarn clean
@@ -93,12 +104,14 @@ yarn install
 ```
 
 ### Module Resolution Issues
+
 ```bash
 # Rebuild packages
 yarn build --filter='./packages/*'
 ```
 
 ### Native App Build Errors
+
 ```bash
 # Clear Expo cache
 yarn dev:native --clear
@@ -127,11 +140,13 @@ Contributions are welcome! Please follow the development workflow and ensure cod
 ## 🏗️ Architecture Highlights
 
 ### 1. **Code Reuse & Monorepo**
+
 - **Turborepo** manages builds and caching
 - Shared packages: API client, state management, UI components
 - Platform-specific implementations automatically resolved
 
 ### 2. **Platform-Specific Components**
+
 ```typescript
 // Automatic bundler resolution
 MovieCard.web.tsx    → Web platform
@@ -140,14 +155,16 @@ MovieCard.tsx        → Default export
 ```
 
 ### 3. **State Management**
+
 ```typescript
 // Redux Toolkit for centralized, platform-agnostic state
 const store = configureStore({
-  reducer: { movies: moviesReducer }
-})
+  reducer: { movies: moviesReducer },
+});
 ```
 
 ### 4. **Performance Optimizations**
+
 - `React.memo` - Prevent unnecessary re-renders
 - `useMemo` - Memoize expensive calculations
 - `useCallback` - Memoize event handlers
@@ -155,16 +172,19 @@ const store = configureStore({
 - Image optimization and lazy loading
 
 ### 5. **Navigation**
+
 - **Web**: Next.js file-based routing
 - **Native**: Expo Router (Next.js-like syntax)
 
 ### Shared Code (Packages)
+
 - **API Layer** - Business logic for API interactions
 - **State Management** - Redux for app state
 - **UI Components** - Reusable, platform-optimized components
 - **TypeScript Config** - Consistent type checking
 
 ### Platform-Specific Code (Apps)
+
 - **Routes/Navigation** - Different paradigms (Next.js vs Expo Router)
 - **Layouts** - Different container strategies
 - **Styling** - CSS Modules (web) vs StyleSheet (native)
@@ -172,6 +192,7 @@ const store = configureStore({
 ## 🚨 Performance Considerations
 
 ### Metrics
+
 - FCP: < 2s
 - LCP: < 2.5s
 - CLS: < 0.1

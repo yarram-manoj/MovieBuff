@@ -27,7 +27,13 @@ const initialState: MovieState = {
 export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
   async (
-    { category, page = 1 }: { category: 'popular' | 'now_playing' | 'upcoming' | 'top_rated'; page?: number },
+    {
+      category,
+      page = 1,
+    }: {
+      category: 'popular' | 'now_playing' | 'upcoming' | 'top_rated';
+      page?: number;
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -51,7 +57,10 @@ export const fetchMovies = createAsyncThunk(
 
 export const searchMovies = createAsyncThunk(
   'movies/searchMovies',
-  async ({ query, page = 1 }: { query: string; page?: number }, { rejectWithValue }) => {
+  async (
+    { query, page = 1 }: { query: string; page?: number },
+    { rejectWithValue }
+  ) => {
     try {
       const API_KEY = getApiKey();
       if (!API_KEY) {

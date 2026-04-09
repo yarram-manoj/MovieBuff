@@ -1,0 +1,15 @@
+{
+  "extends": ["../../.eslintrc.json", "plugin:react-hooks/recommended"],
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "env": {
+        "node": true,
+        "commonjs": true
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
+}

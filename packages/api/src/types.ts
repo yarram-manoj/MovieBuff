@@ -72,7 +72,11 @@ export interface GenreListResponse {
   genres: Genre[];
 }
 
-export type MovieCategory = 'now_playing' | 'upcoming' | 'top_rated' | 'popular';
+export type MovieCategory =
+  | 'now_playing'
+  | 'upcoming'
+  | 'top_rated'
+  | 'popular';
 
 export interface ApiError {
   status_code?: number;

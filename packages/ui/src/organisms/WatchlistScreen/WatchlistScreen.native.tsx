@@ -1,5 +1,12 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Pressable,
+} from 'react-native';
 import { Movie } from '@repo/api';
 import { MovieCard } from '../MovieCard/MovieCard.native';
 
