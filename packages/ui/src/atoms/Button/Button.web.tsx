@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  COMPONENT_STYLES,
+  SPACING,
+  BORDER_RADIUS,
+} from '../../shared/constants';
 
 export interface ButtonProps {
   text: string;
@@ -21,12 +26,12 @@ const styles = {
   button: {
     maxWidth: '200px',
     textAlign: 'center' as const,
-    borderRadius: '10px',
-    padding: '14px 30px',
-    fontSize: '15px',
-    backgroundColor: '#2f80ed',
-    color: 'white',
-    border: 'none',
+    borderRadius: `${BORDER_RADIUS.LG}px`,
+    padding: `${SPACING.MD}px ${SPACING.LG}px`,
+    fontSize: `${COMPONENT_STYLES.button.fontSize}px`,
+    backgroundColor: COMPONENT_STYLES.button.backgroundColor,
+    color: COMPONENT_STYLES.button.color,
+    border: COMPONENT_STYLES.button.border,
     cursor: 'pointer',
   },
 };

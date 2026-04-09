@@ -3,16 +3,17 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { MovieCard } from '@repo/ui';
-import { fetchMovies, searchMovies, clearSelectedMovie } from '@repo/store';
+import { MovieCard, i18n } from '@repo/ui';
+import { fetchMovies, searchMovies } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 import styles from '../styles/movies.module.css';
 
 export default function MoviesPage() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const { movies, loading, error, totalPages, currentPage, category } =
-    useSelector((state: RootState) => state.movies);
+  const { movies, loading, error, totalPages } = useSelector(
+    (state: RootState) => state.movies
+  );
 
   const [selectedCategory, setSelectedCategory] = useState<
     'popular' | 'now_playing' | 'upcoming' | 'top_rated'
@@ -59,10 +60,10 @@ export default function MoviesPage() {
   const categoryButtons = useMemo(
     () =>
       [
-        { id: 'popular', label: 'Popular' },
-        { id: 'now_playing', label: 'Now Playing' },
-        { id: 'upcoming', label: 'Upcoming' },
-        { id: 'top_rated', label: 'Top Rated' },
+        { id: 'popular', label: i18n.categories.popular },
+        { id: 'now_playing', label: i18n.categories.nowPlaying },
+        { id: 'upcoming', label: i18n.categories.upcoming },
+        { id: 'top_rated', label: i18n.categories.topRated },
       ] as const,
     []
   );
@@ -71,19 +72,19 @@ export default function MoviesPage() {
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerTop}>
-          <h1 className={styles.title}>MovieBuff</h1>
+          <h1 className={styles.title}>{i18n.app.title}</h1>
           <a href="/watchlist" className={styles.watchlistLink}>
-            ★ My Watchlist
+            {i18n.navigation.myWatchlist}
           </a>
         </div>
-        <p className={styles.subtitle}>Discover Movies from Around the World</p>
+        <p className={styles.subtitle}>{i18n.app.subtitle}</p>
       </header>
 
       {/* Search Bar */}
       <div className={styles.searchContainer}>
         <input
           type="text"
-          placeholder="Search movies..."
+          placeholder={i18n.search.placeholder}
           value={searchQuery}
           onChange={handleSearch}
           className={styles.searchInput}
@@ -115,7 +116,7 @@ export default function MoviesPage() {
         <div className={styles.errorContainer}>
           <p className={styles.error}>{error}</p>
           <button onClick={() => setPage(1)} className={styles.retryButton}>
-            Retry
+            {i18n.common.tryAgain}
           </button>
         </div>
       )}
@@ -125,7 +126,7 @@ export default function MoviesPage() {
         {loading && movies.length === 0 ? (
           <div className={styles.loadingContainer}>
             <div className={styles.spinner} />
-            <p>Loading movies...</p>
+            <p>{i18n.common.loading}</p>
           </div>
         ) : movies.length > 0 ? (
           <>
@@ -156,10 +157,11 @@ export default function MoviesPage() {
                   {loading && page > 1 && (
                     <div className={styles.paginationLoader} />
                   )}
-                  Previous
+                  {i18n.pagination.previous}
                 </button>
                 <span className={styles.paginationInfo}>
-                  Page {page} of {totalPages}
+                  {i18n.pagination.page} {page} {i18n.pagination.of}{' '}
+                  {totalPages}
                 </span>
                 <button
                   onClick={() => setPage(Math.min(totalPages, page + 1))}
@@ -169,14 +171,14 @@ export default function MoviesPage() {
                   {loading && page < totalPages && (
                     <div className={styles.paginationLoader} />
                   )}
-                  Next
+                  {i18n.pagination.next}
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className={styles.emptyContainer}>
-            <p>No movies found. Try adjusting your search.</p>
+            <p>{i18n.search.noResults}</p>
           </div>
         )}
       </div>

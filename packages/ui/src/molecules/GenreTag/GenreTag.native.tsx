@@ -1,5 +1,11 @@
 import * as React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
+import {
+  COMPONENT_STYLES,
+  SPACING,
+  BORDER_RADIUS,
+  COLORS,
+} from '../../shared/constants';
 
 export interface GenreTagProps {
   name: string;
@@ -20,18 +26,18 @@ export function GenreTag({ name, onClick }: GenreTagProps) {
 
 const styles = StyleSheet.create({
   tag: {
-    backgroundColor: '#f0f0f0',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    marginRight: 8,
-    marginBottom: 8,
+    backgroundColor: COMPONENT_STYLES.tag.backgroundColor,
+    paddingHorizontal: SPACING.MD,
+    paddingVertical: SPACING.SM,
+    borderRadius: BORDER_RADIUS.FULL,
+    marginRight: SPACING.SM,
+    marginBottom: SPACING.SM,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: COLORS.BORDER,
   },
   text: {
-    color: '#666',
-    fontSize: 13,
-    fontWeight: '600',
+    color: COMPONENT_STYLES.tag.color,
+    fontSize: COMPONENT_STYLES.tag.fontSize,
+    fontWeight: COMPONENT_STYLES.tag.fontWeight,
   },
 });

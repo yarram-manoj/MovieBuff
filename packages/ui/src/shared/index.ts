@@ -6,3 +6,5 @@
 export * from './types';
 export * from './hooks';
 export * from './constants';
+export * from './i18n';
+export * from './assets';

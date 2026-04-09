@@ -18,7 +18,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
-import { MovieCard } from '@repo/ui';
+import { MovieCard, i18n } from '@repo/ui';
 import { fetchMovies, searchMovies, clearSelectedMovie } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 
@@ -29,8 +29,9 @@ import type { AppDispatch, RootState } from '@repo/store';
 export default function MoviesScreen() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const { movies, loading, error, totalPages, currentPage, category } =
-    useSelector((state: RootState) => state.movies);
+  const { movies, loading, error, totalPages } = useSelector(
+    (state: RootState) => state.movies
+  );
 
   const [selectedCategory, setSelectedCategory] = useState<
     'popular' | 'now_playing' | 'upcoming' | 'top_rated'
@@ -76,10 +77,10 @@ export default function MoviesScreen() {
   const categoryButtons = useMemo(
     () =>
       [
-        { id: 'popular', label: 'Popular' },
-        { id: 'now_playing', label: 'Now Playing' },
-        { id: 'upcoming', label: 'Upcoming' },
-        { id: 'top_rated', label: 'Top Rated' },
+        { id: 'popular', label: i18n.categories.popular },
+        { id: 'now_playing', label: i18n.categories.nowPlaying },
+        { id: 'upcoming', label: i18n.categories.upcoming },
+        { id: 'top_rated', label: i18n.categories.topRated },
       ] as const,
     []
   );
@@ -125,21 +126,21 @@ export default function MoviesScreen() {
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>
-              Discover Movies from Around the World
-            </Text>
+            <Text style={styles.titleText}>{i18n.app.title}</Text>
+            <Text style={styles.subtitleText}>{i18n.app.subtitle}</Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
             onPress={() => router.push('/watchlist')}
           >
-            <Text style={styles.watchlistLinkText}>★ My Watchlist</Text>
+            <Text style={styles.watchlistLinkText}>
+              {i18n.navigation.myWatchlist}
+            </Text>
           </Pressable>
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
-              placeholder="Search movies..."
+              placeholder={i18n.search.placeholder}
               placeholderTextColor="#999"
               value={searchQuery}
               onChangeText={handleSearch}
@@ -149,7 +150,7 @@ export default function MoviesScreen() {
         </View>
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color="#667eea" />
-          <Text style={styles.loadingText}>Loading movies...</Text>
+          <Text style={styles.loadingText}>{i18n.common.loading}</Text>
         </View>
       </SafeAreaView>
     );
@@ -161,21 +162,21 @@ export default function MoviesScreen() {
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>
-              Discover Movies from Around the World
-            </Text>
+            <Text style={styles.titleText}>{i18n.app.title}</Text>
+            <Text style={styles.subtitleText}>{i18n.app.subtitle}</Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
             onPress={() => router.push('/watchlist')}
           >
-            <Text style={styles.watchlistLinkText}>★ My Watchlist</Text>
+            <Text style={styles.watchlistLinkText}>
+              {i18n.navigation.myWatchlist}
+            </Text>
           </Pressable>
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
-              placeholder="Search movies..."
+              placeholder={i18n.search.placeholder}
               placeholderTextColor="#999"
               value={searchQuery}
               onChangeText={handleSearch}
@@ -187,7 +188,7 @@ export default function MoviesScreen() {
           <View style={styles.errorContainer}>
             <Text style={styles.error}>{error}</Text>
             <Pressable style={styles.retryButton} onPress={() => setPage(1)}>
-              <Text style={styles.retryButtonText}>Retry</Text>
+              <Text style={styles.retryButtonText}>{i18n.common.tryAgain}</Text>
             </Pressable>
           </View>
         </View>
@@ -201,21 +202,21 @@ export default function MoviesScreen() {
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.headerSection}>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>MovieBuff</Text>
-            <Text style={styles.subtitleText}>
-              Discover Movies from Around the World
-            </Text>
+            <Text style={styles.titleText}>{i18n.app.title}</Text>
+            <Text style={styles.subtitleText}>{i18n.app.subtitle}</Text>
           </View>
           <Pressable
             style={styles.watchlistLink}
             onPress={() => router.push('/watchlist')}
           >
-            <Text style={styles.watchlistLinkText}>★ My Watchlist</Text>
+            <Text style={styles.watchlistLinkText}>
+              {i18n.navigation.myWatchlist}
+            </Text>
           </Pressable>
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchInput}
-              placeholder="Search movies..."
+              placeholder={i18n.search.placeholder}
               placeholderTextColor="#999"
               value={searchQuery}
               onChangeText={handleSearch}
@@ -223,8 +224,8 @@ export default function MoviesScreen() {
           </View>
         </View>
         <View style={styles.loaderContainer}>
-          <Text style={styles.emptyText}>No movies found.</Text>
-          <Text style={styles.emptySubtext}>Try adjusting your search.</Text>
+          <Text style={styles.emptyText}>{i18n.search.noResults}</Text>
+          <Text style={styles.emptySubtext}>{i18n.common.tryAgain}</Text>
         </View>
       </SafeAreaView>
     );
@@ -235,17 +236,17 @@ export default function MoviesScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.headerSection}>
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>MovieBuff</Text>
-          <Text style={styles.subtitleText}>
-            Discover Movies from Around the World
-          </Text>
+          <Text style={styles.titleText}>{i18n.app.title}</Text>
+          <Text style={styles.subtitleText}>{i18n.app.subtitle}</Text>
         </View>
 
         <Pressable
           style={styles.watchlistLink}
           onPress={() => router.push('/watchlist')}
         >
-          <Text style={styles.watchlistLinkText}>★ My Watchlist</Text>
+          <Text style={styles.watchlistLinkText}>
+            {i18n.navigation.myWatchlist}
+          </Text>
         </Pressable>
 
         {/* Search Bar */}

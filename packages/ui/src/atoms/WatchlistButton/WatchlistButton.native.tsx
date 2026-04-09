@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Pressable } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { i18n } from '../../shared/i18n';
 
 export interface WatchlistButtonProps {
   isInWatchlist: boolean;
@@ -51,7 +52,7 @@ const WatchlistButtonComponent = ({
           isInWatchlist ? styles.textActive : styles.textInactive,
         ]}
       >
-        {isInWatchlist ? '★ In Watchlist' : '☆ Add to Watchlist'}
+        {isInWatchlist ? i18n.watchlist.addedButton : i18n.watchlist.addButton}
       </Text>
     </TouchableOpacity>
   );

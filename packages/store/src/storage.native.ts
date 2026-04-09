@@ -15,17 +15,6 @@ export const getStorage = async (): Promise<StorageAPI> => {
   return AsyncStorage;
 };
 
-function createNullStorage(): StorageAPI {
-  return {
-    async getItem() {
-      return null;
-    },
-    async setItem() {},
-    async removeItem() {},
-    async clear() {},
-  };
-}
-
 export async function saveJSON<T>(key: string, data: T): Promise<void> {
   const storage = await getStorage();
   await storage.setItem(key, JSON.stringify(data));
