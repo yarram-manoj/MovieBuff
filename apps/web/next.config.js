@@ -2,7 +2,8 @@ module.exports = {
   reactStrictMode: true,
   turbopack: {
     resolveAlias: {
-      "react-native": "react-native-web",
+      "react-native$": "react-native-web",
+      "react-native/": "react-native-web/",
     },
     resolveExtensions: [
       ".web.js",
@@ -19,8 +20,8 @@ module.exports = {
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      // Transform all direct `react-native` imports to `react-native-web`
       "react-native$": "react-native-web",
+      "react-native/": "react-native-web/",
     };
     config.resolve.extensions = [
       ".web.js",
@@ -29,6 +30,10 @@ module.exports = {
       ".web.tsx",
       ...config.resolve.extensions,
     ];
+    config.externals = {
+      ...config.externals,
+      "react-native": "react-native-web",
+    };
     return config;
   },
 };

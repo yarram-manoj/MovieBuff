@@ -1,0 +1,33 @@
+.button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.inWatchlist {
+  background-color: #fbbf24;
+  color: #1f2937;
+}
+
+.inWatchlist:hover {
+  background-color: #f59e0b;
+  transform: scale(1.05);
+}
+
+.notInWatchlist {
+  background-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.notInWatchlist:hover {
+  background-color: #d1d5db;
+  transform: scale(1.05);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
