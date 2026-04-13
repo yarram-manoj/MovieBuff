@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { COMPONENT_STYLES, TYPOGRAPHY, SPACING } from '../../shared/constants';
+import { Badge } from '../../atoms';
 
 export interface RatingProps {
   rating: number;
@@ -8,12 +9,14 @@ export interface RatingProps {
 
 /**
  * Rating - Web
- * Displays movie rating with stars
+ * Displays movie rating with stars using Badge component
  */
 export function Rating({ rating, votesCount }: RatingProps) {
   return (
     <div style={styles.container}>
-      <span style={styles.rating}>★ {rating.toFixed(1)}</span>
+      <Badge variant="success" size="md">
+        ★ {rating.toFixed(1)}
+      </Badge>
       {votesCount && (
         <span style={styles.votes}>({votesCount.toLocaleString()})</span>
       )}
@@ -26,11 +29,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: `${SPACING.MD}px`,
-  },
-  rating: {
-    fontSize: `${COMPONENT_STYLES.rating.fontSize}px`,
-    fontWeight: COMPONENT_STYLES.rating.fontWeight,
-    color: COMPONENT_STYLES.rating.color,
   },
   votes: {
     fontSize: `${TYPOGRAPHY.FONT_SIZE.BASE}px`,

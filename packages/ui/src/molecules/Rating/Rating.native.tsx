@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COMPONENT_STYLES, SPACING, TYPOGRAPHY } from '../../shared/constants';
+import { Badge } from '../../atoms';
 
 export interface RatingProps {
   rating: number;
@@ -9,12 +10,14 @@ export interface RatingProps {
 
 /**
  * Rating - Native
- * Displays movie rating with stars for React Native
+ * Displays movie rating with stars using Badge component
  */
 export function Rating({ rating, votesCount }: RatingProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.rating}>★ {rating.toFixed(1)}</Text>
+      <Badge variant="success" size="md">
+        ★ {rating.toFixed(1)}
+      </Badge>
       {votesCount && (
         <Text style={styles.votes}>({(votesCount / 1000).toFixed(1)}K)</Text>
       )}
@@ -27,11 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.MD,
-  },
-  rating: {
-    fontSize: COMPONENT_STYLES.rating.fontSize,
-    fontWeight: COMPONENT_STYLES.rating.fontWeight,
-    color: COMPONENT_STYLES.rating.color,
   },
   votes: {
     fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
