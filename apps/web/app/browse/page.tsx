@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
 import { fetchMovies, searchMovies, addToWatchlist, removeFromWatchlist } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
+import type { MovieDetails } from '@repo/api';
 import styles from '../../styles/movies.module.css';
 
 export default function BrowseMoviesPage() {
@@ -73,7 +74,7 @@ export default function BrowseMoviesPage() {
 
   // Handle featured movie details click
   const handleFeaturedMoviePress = useCallback(
-    (movie) => {
+    (movie: MovieDetails) => {
       router.push(`/movies/${movie.id}`);
     },
     [router]
@@ -117,7 +118,7 @@ export default function BrowseMoviesPage() {
       {!searchQuery && movies.length > 0 && (
         <div style={{ marginBottom: '2rem' }}>
           <FeaturedMovie
-            movie={movies[0]}
+            movie={movies[0] as MovieDetails}
             onPress={handleFeaturedMoviePress}
             onWatchlistToggle={handleFeaturedWatchlistToggle}
             isInWatchlist={isFeaturedInWatchlist}

@@ -3,7 +3,12 @@
  * Platform-specific exports for web applications
  */
 
-export { Button, type ButtonProps } from './atoms/index.web';
+export {
+  Button,
+  type ButtonProps,
+  ErrorBoundary,
+  type ErrorBoundaryProps,
+} from './atoms/index.web';
 export {
   WatchlistButton,
   type WatchlistButtonProps,

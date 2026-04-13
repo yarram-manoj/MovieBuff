@@ -7,6 +7,7 @@ export const store = configureStore({
     movies: moviesReducer,
     watchlist: watchlistReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;

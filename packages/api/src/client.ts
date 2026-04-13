@@ -7,12 +7,14 @@ import {
   ApiError,
 } from './types';
 import { loadApiConfig, type ApiConfig } from './config';
+import { RequestCache } from './cache';
 
 export class TheMovieDBClient {
   private apiKey: string;
   private baseUrl: string;
   private imageBaseUrl: string;
   private client: AxiosInstance;
+  private cache = new RequestCache();
 
   constructor(apiKey: string, config?: Partial<ApiConfig>) {
     const apiConfig = { ...loadApiConfig(), ...config };
@@ -117,8 +119,15 @@ export class TheMovieDBClient {
 
   /**
    * Get movie details with credits
+   * Cached for 10 minutes to reduce API calls
    */
   async getMovieDetails(movieId: number): Promise<MovieDetails> {
+    const cacheKey = `movie_${movieId}`;
+    
+    // Check cache first
+    const cached = this.cache.get<MovieDetails>(cacheKey);
+    if (cached) return cached;
+    
     try {
       const response = await this.client.get<MovieDetails>(
         `/movie/${movieId}`,
@@ -128,6 +137,9 @@ export class TheMovieDBClient {
           },
         }
       );
+      
+      // Cache for 10 minutes
+      this.cache.set(cacheKey, response.data, 10 * 60 * 1000);
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -156,11 +168,21 @@ export class TheMovieDBClient {
 
   /**
    * Get movie genres
+   * Cached for 1 hour (genres change infrequently)
    */
   async getGenres(): Promise<GenreListResponse> {
+    const cacheKey = 'genres_list';
+    
+    // Check cache first
+    const cached = this.cache.get<GenreListResponse>(cacheKey);
+    if (cached) return cached;
+    
     try {
       const response =
         await this.client.get<GenreListResponse>('/genre/movie/list');
+      
+      // Cache for 1 hour
+      this.cache.set(cacheKey, response.data, 60 * 60 * 1000);
       return response.data;
     } catch (error) {
       throw this.handleError(error);

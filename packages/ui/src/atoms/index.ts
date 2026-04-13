@@ -1,5 +1,6 @@
 /**
- * Atoms - Basic building blocks (Web)
+ * Atoms - Basic building blocks
+ * These are the most basic, reusable components
  */
 
 export { Badge, type BadgeProps } from './Badge/Badge.web';

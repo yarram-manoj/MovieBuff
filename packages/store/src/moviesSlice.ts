@@ -38,9 +38,6 @@ export const fetchMovies = createAsyncThunk(
   ) => {
     try {
       const API_KEY = getApiKey();
-      if (!API_KEY) {
-        return rejectWithValue('API key not configured');
-      }
       const movieClient = createMovieClient(API_KEY);
       const data = await movieClient.getMoviesByCategory(category, page);
       return {
@@ -50,6 +47,9 @@ export const fetchMovies = createAsyncThunk(
         category,
       };
     } catch (error) {
+      if (error instanceof Error && error.message.includes('API key')) {
+        return rejectWithValue('API configuration error. Check your environment variables.');
+      }
       return rejectWithValue(handleThunkError(error));
     }
   }
@@ -63,9 +63,6 @@ export const searchMovies = createAsyncThunk(
   ) => {
     try {
       const API_KEY = getApiKey();
-      if (!API_KEY) {
-        return rejectWithValue('API key not configured');
-      }
       const movieClient = createMovieClient(API_KEY);
       const data = await movieClient.searchMovies(query, page);
       return {
@@ -74,6 +71,9 @@ export const searchMovies = createAsyncThunk(
         currentPage: page,
       };
     } catch (error) {
+      if (error instanceof Error && error.message.includes('API key')) {
+        return rejectWithValue('API configuration error. Check your environment variables.');
+      }
       return rejectWithValue(handleThunkError(error));
     }
   }
@@ -84,13 +84,13 @@ export const fetchMovieDetails = createAsyncThunk(
   async (movieId: number, { rejectWithValue }) => {
     try {
       const API_KEY = getApiKey();
-      if (!API_KEY) {
-        return rejectWithValue('API key not configured');
-      }
       const movieClient = createMovieClient(API_KEY);
       const movie = await movieClient.getMovieDetails(movieId);
       return movie;
     } catch (error) {
+      if (error instanceof Error && error.message.includes('API key')) {
+        return rejectWithValue('API configuration error. Check your environment variables.');
+      }
       return rejectWithValue(handleThunkError(error));
     }
   }
