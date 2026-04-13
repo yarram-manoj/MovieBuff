@@ -196,18 +196,20 @@ export default function BrowseMoviesPage() {
         ) : movies.length > 0 ? (
           <>
             <div className={styles.moviesGrid}>
-              {movies.map((movie) => (
-                <div
-                  key={movie.id}
-                  className={styles.movieCardWrapper}
-                  onClick={() => handleMovieClick(movie.id)}
-                >
-                  <MovieCard
-                    movie={movie}
-                    isLoading={loading}
-                  />
-                </div>
-              ))}
+              {movies
+                .slice((page - 1) * 20, page * 20)
+                .map((movie) => (
+                  <div
+                    key={movie.id}
+                    className={styles.movieCardWrapper}
+                    onClick={() => handleMovieClick(movie.id)}
+                  >
+                    <MovieCard
+                      movie={movie}
+                      isLoading={loading}
+                    />
+                  </div>
+                ))}
             </div>
 
             {/* Pagination */}

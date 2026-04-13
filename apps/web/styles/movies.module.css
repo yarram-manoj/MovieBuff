@@ -2,6 +2,7 @@
   min-height: 100vh;
   background-color: #f9f9f9;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 .header {
@@ -131,7 +132,7 @@
 }
 
 .content {
-  padding: 32px 24px;
+  padding: 32px 24px 20px 24px;
   width: 100%;
   box-sizing: border-box;
   min-height: auto;
@@ -169,7 +170,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 80px;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   animation: fadeIn 0.4s ease-out;
   width: 100%;
   align-content: start;
@@ -289,8 +290,9 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 40px;
-  padding-top: 28px;
+  margin-top: 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border-top: 2px solid #f0f0f0;
 }
 
