@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COMPONENT_STYLES, SPACING, TYPOGRAPHY } from '../../shared/constants';
-import { Badge } from '../../atoms';
+import { Badge } from '../../atoms/Badge/Badge.native';
 
 export interface RatingProps {
   rating: number;

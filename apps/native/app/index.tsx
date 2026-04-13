@@ -18,19 +18,25 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
-import { MovieCard, i18n } from '@repo/ui';
-import { fetchMovies, searchMovies, clearSelectedMovie } from '@repo/store';
+import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
+import {
+  fetchMovies,
+  searchMovies,
+  clearSelectedMovie,
+  addToWatchlist,
+  removeFromWatchlist,
+} from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 
-// Calculate item height: aspect ratio 2/3 means height = width * 1.5
-// For 2 columns with 12px gap: (width - 6) / 2 per item, with padding
-// Note: Now using dynamic height to accommodate text content
 
 export default function MoviesScreen() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { movies, loading, error, totalPages } = useSelector(
     (state: RootState) => state.movies
+  );
+  const watchlistMovies = useSelector(
+    (state: RootState) => state.watchlist.movies
   );
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -83,6 +89,37 @@ export default function MoviesScreen() {
         { id: 'top_rated', label: i18n.categories.topRated },
       ] as const,
     []
+  );
+
+  // Handle featured movie details click
+  const handleFeaturedMoviePress = useCallback(
+    (movie) => {
+      dispatch(clearSelectedMovie());
+      router.push(`/movies/${movie.id}`);
+    },
+    [router, dispatch]
+  );
+
+  // Handle featured movie watchlist toggle
+  const handleFeaturedWatchlistToggle = useCallback(() => {
+    if (movies.length === 0) return;
+    const featuredMovie = movies[0];
+    const isInWatchlist = watchlistMovies.some(
+      (m) => m.id === featuredMovie.id
+    );
+    if (isInWatchlist) {
+      dispatch(removeFromWatchlist(featuredMovie.id));
+    } else {
+      dispatch(addToWatchlist(featuredMovie));
+    }
+  }, [movies, watchlistMovies, dispatch]);
+
+  // Check if first movie is in watchlist
+  const isFeaturedInWatchlist = useMemo(
+    () =>
+      movies.length > 0 &&
+      watchlistMovies.some((m) => m.id === movies[0].id),
+    [movies, watchlistMovies]
   );
 
   // Render individual movie card
@@ -312,6 +349,18 @@ export default function MoviesScreen() {
         updateCellsBatchingPeriod={100}
         initialNumToRender={4}
         windowSize={8}
+        ListHeaderComponent={
+          !searchQuery && movies.length > 0 ? (
+            <View style={styles.featuredMovieContainer}>
+              <FeaturedMovie
+                movie={movies[0]}
+                onPress={handleFeaturedMoviePress}
+                onWatchlistToggle={handleFeaturedWatchlistToggle}
+                isInWatchlist={isFeaturedInWatchlist}
+              />
+            </View>
+          ) : null
+        }
         ListFooterComponent={
           loading && movies.length > 0 ? (
             <View style={styles.footerLoader}>
@@ -325,6 +374,9 @@ export default function MoviesScreen() {
 }
 
 const styles = StyleSheet.create({
+  featuredMovieContainer: {
+    marginBottom: 24,
+  },
   headerSection: {
     backgroundColor: '#667eea',
   },

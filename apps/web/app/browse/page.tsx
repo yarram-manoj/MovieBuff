@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { MovieCard, i18n } from '@repo/ui';
-import { fetchMovies, searchMovies } from '@repo/store';
+import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
+import { fetchMovies, searchMovies, addToWatchlist, removeFromWatchlist } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 import styles from '../../styles/movies.module.css';
 
@@ -13,6 +13,9 @@ export default function BrowseMoviesPage() {
   const router = useRouter();
   const { movies, loading, error, totalPages } = useSelector(
     (state: RootState) => state.movies
+  );
+  const watchlistMovies = useSelector(
+    (state: RootState) => state.watchlist.movies
   );
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -68,6 +71,36 @@ export default function BrowseMoviesPage() {
     []
   );
 
+  // Handle featured movie details click
+  const handleFeaturedMoviePress = useCallback(
+    (movie) => {
+      router.push(`/movies/${movie.id}`);
+    },
+    [router]
+  );
+
+  // Handle featured movie watchlist toggle
+  const handleFeaturedWatchlistToggle = useCallback(() => {
+    if (movies.length === 0) return;
+    const featuredMovie = movies[0];
+    const isInWatchlist = watchlistMovies.some(
+      (m) => m.id === featuredMovie.id
+    );
+    if (isInWatchlist) {
+      dispatch(removeFromWatchlist(featuredMovie.id));
+    } else {
+      dispatch(addToWatchlist(featuredMovie));
+    }
+  }, [movies, watchlistMovies, dispatch]);
+
+  // Check if first movie is in watchlist
+  const isFeaturedInWatchlist = useMemo(
+    () =>
+      movies.length > 0 &&
+      watchlistMovies.some((m) => m.id === movies[0].id),
+    [movies, watchlistMovies]
+  );
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -79,6 +112,18 @@ export default function BrowseMoviesPage() {
         </div>
         <p className={styles.subtitle}>{i18n.app.subtitle}</p>
       </header>
+
+      {/* Featured Movie Section */}
+      {!searchQuery && movies.length > 0 && (
+        <div style={{ marginBottom: '2rem' }}>
+          <FeaturedMovie
+            movie={movies[0]}
+            onPress={handleFeaturedMoviePress}
+            onWatchlistToggle={handleFeaturedWatchlistToggle}
+            isInWatchlist={isFeaturedInWatchlist}
+          />
+        </div>
+      )}
 
       {/* Search Bar */}
       <div className={styles.searchContainer}>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { COMPONENT_STYLES, TYPOGRAPHY, SPACING } from '../../shared/constants';
-import { Badge } from '../../atoms';
+import { Badge } from '../../atoms/Badge/Badge.web';
 
 export interface RatingProps {
   rating: number;

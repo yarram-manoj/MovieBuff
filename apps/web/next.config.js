@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
+  // React Native Web setup: Configure Turbopack aliasing
   turbopack: {
     resolveAlias: {
       'react-native$': 'react-native-web',
@@ -17,6 +18,7 @@ module.exports = {
       '.json',
     ],
   },
+  // React Native Web setup: Configure webpack aliasing for backward compatibility
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

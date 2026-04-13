@@ -18,7 +18,7 @@ export default defineConfig((options: Options) => ({
     'react-native-safe-area-context',
   ],
   dts: {
-    resolve: true,
+    resolve: false,
   },
   // Splitting allows web and native to be built separately
   splitting: false,

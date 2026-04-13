@@ -4,7 +4,7 @@ import * as React from 'react';
 import { MovieDetails } from '@repo/api';
 import { useMovieClient } from '../../shared/hooks';
 import { CAST_DISPLAY_LIMIT, IMAGE_SIZES } from '../../shared/constants';
-import { WatchlistButton } from '../../atoms/WatchlistButton';
+import { WatchlistButton } from '../../atoms/WatchlistButton/WatchlistButton.web';
 import styles from './MovieDetail.web.module.css';
 
 export interface MovieDetailProps {
@@ -23,7 +23,6 @@ export interface MovieDetailProps {
 export const MovieDetail = React.memo<MovieDetailProps>(
   ({
     movie,
-    onBack,
     isInWatchlist = false,
     onWatchlistToggle,
   }) => {
@@ -56,15 +55,8 @@ export const MovieDetail = React.memo<MovieDetailProps>(
           </div>
         )}
 
-        {/* Header with Back Button and Watchlist Button */}
+        {/* Header with Watchlist Button */}
         <div className={styles.header}>
-          <button
-            className={styles.backButton}
-            onClick={onBack}
-            aria-label="Go back"
-          >
-            ← Back
-          </button>
           {onWatchlistToggle && (
             <WatchlistButton
               isInWatchlist={isInWatchlist}

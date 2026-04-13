@@ -1,7 +1,7 @@
 import React from 'react';
 import { Movie } from '@repo/api';
 import { i18n } from '../../shared/i18n';
-import { MovieCard } from '../MovieCard';
+import { MovieCard } from '../MovieCard/MovieCard.web';
 import styles from './WatchlistScreen.web.module.css';
 
 export interface WatchlistScreenProps {
