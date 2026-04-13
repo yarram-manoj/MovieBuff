@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { MovieDetail } from '@repo/ui';
 import {
   fetchMovieDetails,
@@ -16,7 +16,6 @@ import styles from '../../../styles/movie-detail.module.css';
 
 export default function MovieDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
   const params = useParams();
   const movieId = parseInt(params.id as string, 10);
 
@@ -43,11 +42,6 @@ export default function MovieDetailPage() {
       dispatch(clearSelectedMovie());
     };
   }, [movieId, dispatch]);
-
-  const handleBack = React.useCallback(() => {
-    router.back();
-    dispatch(clearSelectedMovie());
-  }, [router, dispatch]);
 
   const handleWatchlistToggle = React.useCallback(() => {
     if (!movie) return;
@@ -77,9 +71,6 @@ export default function MovieDetailPage() {
   if (error) {
     return (
       <div className={styles.errorContainer}>
-        <button onClick={handleBack} className={styles.backButton}>
-          ← Back
-        </button>
         <p className={styles.error}>{error}</p>
       </div>
     );
@@ -88,9 +79,6 @@ export default function MovieDetailPage() {
   if (!movie) {
     return (
       <div className={styles.emptyContainer}>
-        <button onClick={handleBack} className={styles.backButton}>
-          ← Back
-        </button>
         <p>Movie not found.</p>
       </div>
     );
@@ -99,7 +87,6 @@ export default function MovieDetailPage() {
   return (
     <MovieDetail
       movie={movie}
-      onBack={handleBack}
       isLoading={loading}
       isInWatchlist={isInWatchlist}
       onWatchlistToggle={handleWatchlistToggle}

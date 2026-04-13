@@ -9,7 +9,6 @@ import styles from './MovieDetail.web.module.css';
 
 export interface MovieDetailProps {
   movie: MovieDetails;
-  onBack?: () => void;
   isLoading?: boolean;
   isInWatchlist?: boolean;
   onWatchlistToggle?: () => void;

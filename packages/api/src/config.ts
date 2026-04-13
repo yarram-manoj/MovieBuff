@@ -11,15 +11,28 @@ export interface ApiConfig {
 
 /**
  * Get environment variable with platform-specific prefixes
- * Checks both Next.js (NEXT_PUBLIC_) and Expo (EXPO_PUBLIC_)
+ * In Next.js, NEXT_PUBLIC_* variables are inlined at build time
+ * In React Native, use EXPO_PUBLIC_* variables
  */
 function getEnvVar(key: string): string {
-  if (typeof process === 'undefined') return '';
-
+  // Try to get the value - it will be inlined by the bundler if available
   const nextPubKey = `NEXT_PUBLIC_${key}`;
   const expoPubKey = `EXPO_PUBLIC_${key}`;
 
-  return process.env[nextPubKey] || process.env[expoPubKey] || '';
+  // In any environment, these could be available via process.env
+  // They'll be strings if provided, undefined if not
+  try {
+    if (process.env[nextPubKey]) {
+      return process.env[nextPubKey] as string;
+    }
+    if (process.env[expoPubKey]) {
+      return process.env[expoPubKey] as string;
+    }
+  } catch (e) {
+    // Silently ignore if process.env is not available
+  }
+
+  return '';
 }
 
 /**

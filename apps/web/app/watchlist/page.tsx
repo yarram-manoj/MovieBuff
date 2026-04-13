@@ -21,15 +21,10 @@ export default function WatchlistPage() {
     router.push(`/movies/${movieId}`);
   };
 
-  const handleBack = () => {
-    router.push('/');
-  };
-
   return (
     <WatchlistScreen
       movies={movies}
       onMoviePress={handleMoviePress}
-      onBack={handleBack}
     />
   );
 }

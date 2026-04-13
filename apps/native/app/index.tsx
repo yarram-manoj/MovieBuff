@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useMemo,
   useRef,
+  memo,
 } from 'react';
 import {
   View,
@@ -16,6 +17,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
 import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
@@ -28,6 +30,31 @@ import {
 } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 
+// Memoized movie card item component - prevents unnecessary re-renders
+const MovieCardItem = memo(
+  ({ item, onPress }: { item: any; onPress: (id: number) => void }) => (
+    <Pressable
+      style={styles.cardWrapper}
+      onPress={() => onPress(item.id)}
+    >
+      <MovieCard movie={item} onPress={() => onPress(item.id)} />
+    </Pressable>
+  )
+);
+
+MovieCardItem.displayName = 'MovieCardItem';
+
+// Memoized list footer component
+const ListFooter = memo(({ isLoading }: { isLoading: boolean }) => {
+  if (!isLoading) return null;
+  return (
+    <View style={styles.footerLoader}>
+      <ActivityIndicator size="small" color="#667eea" />
+    </View>
+  );
+});
+
+ListFooter.displayName = 'ListFooter';
 
 export default function MoviesScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,25 +71,48 @@ export default function MoviesScreen() {
   >('popular');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
-  const isFetchingRef = useRef(false);
-  const lastLoadTimeRef = useRef(0);
-
-  // Load movies on component mount and when category changes
+  const [loadingMore, setLoadingMore] = useState(false);
+  
+  // Refs for pagination state
+  const canLoadMoreRef = useRef(true);
   useEffect(() => {
-    isFetchingRef.current = true;
     if (searchQuery.trim()) {
-      dispatch(searchMovies({ query: searchQuery, page }));
+      dispatch(searchMovies({ query: searchQuery, page: 1 }));
     } else {
-      dispatch(fetchMovies({ category: selectedCategory, page }));
+      dispatch(fetchMovies({ category: selectedCategory, page: 1 }));
     }
-  }, [selectedCategory, page, searchQuery, dispatch]);
+    canLoadMoreRef.current = true;
+    setLoadingMore(false);
+  }, [selectedCategory, searchQuery, dispatch]);
 
-  // Mark fetch complete when loading finishes
+  // Handle page changes
   useEffect(() => {
-    if (!loading) {
-      isFetchingRef.current = false;
+    if (page > 1) {
+      if (searchQuery.trim()) {
+        dispatch(searchMovies({ query: searchQuery, page }));
+      } else {
+        dispatch(fetchMovies({ category: selectedCategory, page }));
+      }
     }
-  }, [loading]);
+  }, [page, dispatch, selectedCategory, searchQuery]);
+
+  // Reset loading flag when loading completes
+  useEffect(() => {
+    if (page > 1 && !loading) {
+      setLoadingMore(false);
+      canLoadMoreRef.current = true;
+    }
+  }, [loading, page]);
+
+  // Reload movies when screen comes back into focus (from watchlist/movie detail)
+  useFocusEffect(
+    useCallback(() => {
+      if (movies.length === 0 && !searchQuery.trim()) {
+        setPage(1);
+        dispatch(fetchMovies({ category: selectedCategory, page: 1 }));
+      }
+    }, [movies.length, searchQuery, selectedCategory, dispatch])
+  );
 
   // Handle search
   const handleSearch = useCallback((text: string) => {
@@ -77,18 +127,6 @@ export default function MoviesScreen() {
       router.push(`/movies/${movieId}`);
     },
     [router, dispatch]
-  );
-
-  // Memoize category buttons
-  const categoryButtons = useMemo(
-    () =>
-      [
-        { id: 'popular', label: i18n.categories.popular },
-        { id: 'now_playing', label: i18n.categories.nowPlaying },
-        { id: 'upcoming', label: i18n.categories.upcoming },
-        { id: 'top_rated', label: i18n.categories.topRated },
-      ] as const,
-    []
   );
 
   // Handle featured movie details click
@@ -122,40 +160,37 @@ export default function MoviesScreen() {
     [movies, watchlistMovies]
   );
 
-  // Render individual movie card
-  const renderMovieCard = useCallback(
-    ({ item }: any) => (
-      <Pressable
-        style={styles.cardWrapper}
-        onPress={() => handleMovieClick(item.id)}
-      >
-        <MovieCard movie={item} onPress={() => handleMovieClick(item.id)} />
-      </Pressable>
-    ),
-    [handleMovieClick]
+  // Memoize category buttons
+  const categoryButtons = useMemo(
+    () =>
+      [
+        { id: 'popular', label: i18n.categories.popular },
+        { id: 'now_playing', label: i18n.categories.nowPlaying },
+        { id: 'upcoming', label: i18n.categories.upcoming },
+        { id: 'top_rated', label: i18n.categories.topRated },
+      ] as const,
+    []
   );
 
-  // Key extractor
+  // Key extractor - uses stable unique ID
   const keyExtractor = useCallback((item: any) => item.id.toString(), []);
 
-  // Handle end reached for pagination
+  // Handle end reached for pagination - prevents duplicate calls
   const handleEndReached = useCallback(() => {
-    // Prevent duplicate requests: check fetch in progress and cooldown
-    const now = Date.now();
-    const timeSinceLastLoad = now - lastLoadTimeRef.current;
+    // Simple, clear condition checks
+    const hasMorePages = page < totalPages;
+    const isNotLoading = !loading && !loadingMore;
+    const canLoad = canLoadMoreRef.current;
 
-    if (
-      isFetchingRef.current ||
-      page >= totalPages ||
-      timeSinceLastLoad < 500
-    ) {
+    if (!hasMorePages || !isNotLoading || !canLoad) {
       return;
     }
 
-    isFetchingRef.current = true;
-    lastLoadTimeRef.current = now;
+    // Mark that we're loading more and prevent further calls
+    canLoadMoreRef.current = false;
+    setLoadingMore(true);
     setPage((prevPage) => prevPage + 1);
-  }, [page, totalPages]);
+  }, [page, totalPages, loading, loadingMore]);
 
   // Render loading state
   if (loading && movies.length === 0) {
@@ -313,7 +348,7 @@ export default function MoviesScreen() {
                   selectedCategory === cat.id && styles.categoryButtonActive,
                 ]}
                 onPress={() => {
-                  setSelectedCategory(cat.id);
+                  setSelectedCategory(cat.id as any);
                   setPage(1);
                 }}
               >
@@ -332,23 +367,27 @@ export default function MoviesScreen() {
         )}
       </View>
 
-      {/* Scrollable movies grid */}
+      {/* Scrollable movies grid using FlatList */}
       <FlatList
-        data={movies}
-        renderItem={renderMovieCard}
+        key={`flatlist-${selectedCategory}`}
+        data={searchQuery.trim() ? movies : movies}
+        renderItem={({ item }: any) => (
+          <MovieCardItem item={item} onPress={handleMovieClick} />
+        )}
         keyExtractor={keyExtractor}
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.contentContainer}
-        scrollEnabled={!loading}
-        scrollEventThrottle={32}
-        removeClippedSubviews={true}
+        scrollEnabled={movies.length > 0}
+        scrollEventThrottle={16}
+        removeClippedSubviews={false}
         onEndReached={handleEndReached}
-        onEndReachedThreshold={0.4}
-        maxToRenderPerBatch={4}
-        updateCellsBatchingPeriod={100}
-        initialNumToRender={4}
-        windowSize={8}
+        onEndReachedThreshold={0.5}
+        onEndReachedCalledDuringMomentum={false}
+        maxToRenderPerBatch={20}
+        updateCellsBatchingPeriod={30}
+        initialNumToRender={20}
+        windowSize={50}
         ListHeaderComponent={
           !searchQuery && movies.length > 0 ? (
             <View style={styles.featuredMovieContainer}>
@@ -361,22 +400,13 @@ export default function MoviesScreen() {
             </View>
           ) : null
         }
-        ListFooterComponent={
-          loading && movies.length > 0 ? (
-            <View style={styles.footerLoader}>
-              <ActivityIndicator size="small" color="#667eea" />
-            </View>
-          ) : null
-        }
+        ListFooterComponent={<ListFooter isLoading={loadingMore} />}
       />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  featuredMovieContainer: {
-    marginBottom: 24,
-  },
   headerSection: {
     backgroundColor: '#667eea',
   },
@@ -465,10 +495,14 @@ const styles = StyleSheet.create({
   categoryButtonTextActive: {
     color: '#fff',
   },
+  featuredMovieContainer: {
+    marginBottom: 24,
+  },
   contentContainer: {
     paddingHorizontal: 12,
-    paddingVertical: 20,
+    paddingVertical: 12,
     gap: 12,
+    paddingBottom: 24,
   },
   cardWrapper: {
     flex: 1,
@@ -533,6 +567,7 @@ const styles = StyleSheet.create({
   },
   container: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'column',
     backgroundColor: '#667eea',
   },

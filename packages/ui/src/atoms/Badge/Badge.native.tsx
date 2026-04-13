@@ -57,6 +57,7 @@ export const Badge: React.FC<BadgeProps> = ({
       borderRadius: size === 'lg' ? BORDER_RADIUS.LG : BORDER_RADIUS.SM,
       alignItems: 'center',
       justifyContent: 'center',
+      flexDirection: 'row',
     },
     text: {
       color: colors_variant.text,
@@ -65,9 +66,12 @@ export const Badge: React.FC<BadgeProps> = ({
     },
   });
 
+  // Always wrap content in Text component to ensure proper rendering
   return (
     <View style={[nativeStyles.container, style]}>
-      <Text style={nativeStyles.text}>{children}</Text>
+      <Text style={nativeStyles.text} numberOfLines={1}>
+        {children}
+      </Text>
     </View>
   );
 };

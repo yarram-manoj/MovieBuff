@@ -71,11 +71,6 @@ export const WatchlistScreen: React.FC<WatchlistScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {onBack && (
-        <Pressable onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backText}>← {i18n.common.back}</Text>
-        </Pressable>
-      )}
       <FlatList
         data={movies}
         renderItem={({ item }) => (

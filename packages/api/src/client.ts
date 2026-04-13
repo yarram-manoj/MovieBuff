@@ -15,6 +15,7 @@ export class TheMovieDBClient {
   private imageBaseUrl: string;
   private client: AxiosInstance;
   private cache = new RequestCache();
+  private pendingRequests = new Map<string, Promise<any>>();
 
   constructor(apiKey: string, config?: Partial<ApiConfig>) {
     const apiConfig = { ...loadApiConfig(), ...config };
@@ -101,17 +102,41 @@ export class TheMovieDBClient {
 
   /**
    * Get movies by category
+   * Cached for 5 minutes to reduce API calls
+   * Deduplicates concurrent identical requests
    */
   async getMoviesByCategory(
     category: MovieCategory,
     page: number = 1
   ): Promise<MovieListResponse> {
+    const cacheKey = `movies_${category}_${page}`;
+    
+    // Check cache first
+    const cached = this.cache.get<MovieListResponse>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    
+    // Check if there's already a pending request for this
+    const pending = this.pendingRequests.get(cacheKey);
+    if (pending) return pending;
+    
     try {
-      const response = await this.client.get<MovieListResponse>(
+      const request = this.client.get<MovieListResponse>(
         `/movie/${category}`,
         { params: { page } }
-      );
-      return response.data;
+      ).then(response => {
+        // Cache for 5 minutes
+        this.cache.set(cacheKey, response.data, 5 * 60 * 1000);
+        this.pendingRequests.delete(cacheKey);
+        return response.data;
+      }).catch(error => {
+        this.pendingRequests.delete(cacheKey);
+        throw error;
+      });
+      
+      this.pendingRequests.set(cacheKey, request);
+      return await request;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -120,6 +145,7 @@ export class TheMovieDBClient {
   /**
    * Get movie details with credits
    * Cached for 10 minutes to reduce API calls
+   * Deduplicates concurrent identical requests
    */
   async getMovieDetails(movieId: number): Promise<MovieDetails> {
     const cacheKey = `movie_${movieId}`;
@@ -128,19 +154,30 @@ export class TheMovieDBClient {
     const cached = this.cache.get<MovieDetails>(cacheKey);
     if (cached) return cached;
     
+    // Check if there's already a pending request for this
+    const pending = this.pendingRequests.get(cacheKey);
+    if (pending) return pending;
+    
     try {
-      const response = await this.client.get<MovieDetails>(
+      const request = this.client.get<MovieDetails>(
         `/movie/${movieId}`,
         {
           params: {
             append_to_response: 'credits',
           },
         }
-      );
+      ).then(response => {
+        // Cache for 10 minutes
+        this.cache.set(cacheKey, response.data, 10 * 60 * 1000);
+        this.pendingRequests.delete(cacheKey);
+        return response.data;
+      }).catch(error => {
+        this.pendingRequests.delete(cacheKey);
+        throw error;
+      });
       
-      // Cache for 10 minutes
-      this.cache.set(cacheKey, response.data, 10 * 60 * 1000);
-      return response.data;
+      this.pendingRequests.set(cacheKey, request);
+      return await request;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -148,19 +185,43 @@ export class TheMovieDBClient {
 
   /**
    * Search movies
+   * Cached for 5 minutes to reduce API calls
+   * Deduplicates concurrent identical requests
    */
   async searchMovies(
     query: string,
     page: number = 1
   ): Promise<MovieListResponse> {
+    const cacheKey = `search_${query}_${page}`;
+    
+    // Check cache first
+    const cached = this.cache.get<MovieListResponse>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    
+    // Check if there's already a pending request for this
+    const pending = this.pendingRequests.get(cacheKey);
+    if (pending) return pending;
+    
     try {
-      const response = await this.client.get<MovieListResponse>(
+      const request = this.client.get<MovieListResponse>(
         '/search/movie',
         {
           params: { query, page },
         }
-      );
-      return response.data;
+      ).then(response => {
+        // Cache for 5 minutes
+        this.cache.set(cacheKey, response.data, 5 * 60 * 1000);
+        this.pendingRequests.delete(cacheKey);
+        return response.data;
+      }).catch(error => {
+        this.pendingRequests.delete(cacheKey);
+        throw error;
+      });
+      
+      this.pendingRequests.set(cacheKey, request);
+      return await request;
     } catch (error) {
       throw this.handleError(error);
     }
@@ -235,4 +296,18 @@ export class TheMovieDBClient {
 // Export factory function
 export function createMovieClient(apiKey: string): TheMovieDBClient {
   return new TheMovieDBClient(apiKey);
+}
+
+// Global singleton instance cache
+const clientInstances = new Map<string, TheMovieDBClient>();
+
+/**
+ * Get or create a singleton TheMovieDBClient instance per API key
+ * Reuses the same client instance to preserve cache across requests
+ */
+export function getMovieClient(apiKey: string): TheMovieDBClient {
+  if (!clientInstances.has(apiKey)) {
+    clientInstances.set(apiKey, new TheMovieDBClient(apiKey));
+  }
+  return clientInstances.get(apiKey)!;
 }

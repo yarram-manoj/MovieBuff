@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
@@ -24,6 +24,7 @@ export default function BrowseMoviesPage() {
   >('popular');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const initialFetchDoneRef = useRef(false);
 
   // Load movies on component mount and when category changes
   useEffect(() => {
@@ -32,7 +33,16 @@ export default function BrowseMoviesPage() {
     } else {
       dispatch(fetchMovies({ category: selectedCategory, page }));
     }
+    initialFetchDoneRef.current = true;
   }, [selectedCategory, page, searchQuery, dispatch]);
+
+  // Fallback: if movies are empty but we've already initialized, reload them
+  // This handles the case of returning from watchlist/movie detail
+  useEffect(() => {
+    if (initialFetchDoneRef.current && movies.length === 0 && !loading && !searchQuery.trim()) {
+      dispatch(fetchMovies({ category: selectedCategory, page: 1 }));
+    }
+  }, [movies.length]);
 
   // Scroll to movies grid when page changes
   useEffect(() => {
@@ -102,14 +112,23 @@ export default function BrowseMoviesPage() {
     [movies, watchlistMovies]
   );
 
+  // Handle watchlist navigation
+  const handleWatchlistClick = useCallback(() => {
+    router.push('/watchlist');
+  }, [router]);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <h1 className={styles.title}>{i18n.app.title}</h1>
-          <a href="/watchlist" className={styles.watchlistLink}>
+          <button 
+            onClick={handleWatchlistClick} 
+            className={styles.watchlistLink}
+            aria-label={i18n.navigation.myWatchlist}
+          >
             {i18n.navigation.myWatchlist}
-          </a>
+          </button>
         </div>
         <p className={styles.subtitle}>{i18n.app.subtitle}</p>
       </header>

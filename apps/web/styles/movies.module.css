@@ -32,6 +32,9 @@
   background-color: rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
   white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font: inherit;
 }
 
 .watchlistLink:hover {
