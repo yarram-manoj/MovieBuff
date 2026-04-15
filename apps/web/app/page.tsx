@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { i18n } from '@repo/ui';
+import { i18n, APP_CONSTANTS } from '@repo/ui';
 import styles from '../styles/splash.module.css';
 
 export default function SplashPage() {
@@ -13,7 +13,7 @@ export default function SplashPage() {
     // Navigate to browse page after 2.5 seconds
     const timer = setTimeout(() => {
       router.push('/browse');
-    }, 2500);
+    }, APP_CONSTANTS.SPLASH_DELAY_MS);
 
     return () => clearTimeout(timer);
   }, [router]);

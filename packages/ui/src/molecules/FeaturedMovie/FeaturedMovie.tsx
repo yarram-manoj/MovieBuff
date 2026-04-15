@@ -178,12 +178,12 @@ const styles = StyleSheet.create({
   placeholderImage: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#333',
+    backgroundColor: COLORS.BG_DARK,
   },
   title: {
     fontSize: TYPOGRAPHY.FONT_SIZE['2XL'],
     fontWeight: '700',
-    color: '#fff',
+    color: COLORS.TEXT_LIGHT,
     marginBottom: SPACING.MD,
     letterSpacing: 0.5,
   },
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   buttonText: {
-    color: '#fff',
+    color: COLORS.TEXT_LIGHT,
     fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
     fontWeight: '600',
   },
@@ -249,6 +249,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   secondaryButtonTextActive: {
-    color: '#ff6b6b',
+    color: COLORS.ERROR,
   },
 });

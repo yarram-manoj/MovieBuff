@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { i18n } from '../../shared/i18n';
+import { COLORS, SPACING, BORDER_RADIUS, TYPOGRAPHY } from '../../shared/constants';
 
 export interface WatchlistButtonProps {
   isInWatchlist: boolean;
@@ -9,27 +10,27 @@ export interface WatchlistButtonProps {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.SM,
+    borderRadius: BORDER_RADIUS.MD,
     justifyContent: 'center',
     alignItems: 'center',
   },
   inWatchlist: {
-    backgroundColor: '#fbbf24',
+    backgroundColor: COLORS.RATING,
   },
   notInWatchlist: {
-    backgroundColor: '#e5e7eb',
+    backgroundColor: COLORS.SECONDARY,
   },
   text: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
   },
   textActive: {
-    color: '#1f2937',
+    color: COLORS.TEXT_PRIMARY,
   },
   textInactive: {
-    color: '#6b7280',
+    color: COLORS.TEXT_SECONDARY,
   },
 });
 

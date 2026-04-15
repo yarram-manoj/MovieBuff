@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Movie } from '@repo/api';
 import { i18n } from '../../shared/i18n';
 import { MovieCard } from '../MovieCard/MovieCard.native';
+import { COLORS, SPACING, TYPOGRAPHY } from '../../shared/constants';
 
 export interface WatchlistScreenProps {
   movies: Movie[];
@@ -14,38 +15,38 @@ export interface WatchlistScreenProps {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.TEXT_LIGHT,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.XL - 4,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#6b7280',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    color: COLORS.TEXT_SECONDARY,
     textAlign: 'center',
   },
   listContent: {
-    padding: 12,
-    paddingBottom: 24,
+    padding: SPACING.MD,
+    paddingBottom: SPACING.XL,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 16,
+    fontSize: TYPOGRAPHY.FONT_SIZE['2XL'],
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    color: COLORS.TEXT_PRIMARY,
+    marginBottom: SPACING.LG,
   },
   backButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 16,
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.MD,
+    marginBottom: SPACING.LG,
   },
   backText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#007AFF',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.INFO,
   },
 });
 

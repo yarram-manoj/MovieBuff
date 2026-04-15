@@ -20,7 +20,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'expo-router';
-import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
+import {
+  FeaturedMovie,
+  MovieCard,
+  i18n,
+  COLORS,
+  SPACING,
+  TYPOGRAPHY,
+  BORDER_RADIUS,
+} from '@repo/ui';
 import {
   fetchMovies,
   searchMovies,
@@ -29,6 +37,7 @@ import {
   removeFromWatchlist,
 } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
+import type { MovieDetails } from '@repo/api';
 
 // Memoized movie card item component - prevents unnecessary re-renders
 const MovieCardItem = memo(
@@ -49,7 +58,7 @@ const ListFooter = memo(({ isLoading }: { isLoading: boolean }) => {
   if (!isLoading) return null;
   return (
     <View style={styles.footerLoader}>
-      <ActivityIndicator size="small" color="#667eea" />
+      <ActivityIndicator size="small" color={COLORS.PRIMARY} />
     </View>
   );
 });
@@ -131,7 +140,7 @@ export default function MoviesScreen() {
 
   // Handle featured movie details click
   const handleFeaturedMoviePress = useCallback(
-    (movie) => {
+    (movie: MovieDetails) => {
       dispatch(clearSelectedMovie());
       router.push(`/movies/${movie.id}`);
     },
@@ -213,7 +222,7 @@ export default function MoviesScreen() {
             <TextInput
               style={styles.searchInput}
               placeholder={i18n.search.placeholder}
-              placeholderTextColor="#999"
+              placeholderTextColor={COLORS.TEXT_TERTIARY}
               value={searchQuery}
               onChangeText={handleSearch}
               editable={false}
@@ -221,7 +230,7 @@ export default function MoviesScreen() {
           </View>
         </View>
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#667eea" />
+          <ActivityIndicator size="large" color={COLORS.PRIMARY} />
           <Text style={styles.loadingText}>{i18n.common.loading}</Text>
         </View>
       </SafeAreaView>
@@ -249,7 +258,7 @@ export default function MoviesScreen() {
             <TextInput
               style={styles.searchInput}
               placeholder={i18n.search.placeholder}
-              placeholderTextColor="#999"
+              placeholderTextColor={COLORS.TEXT_TERTIARY}
               value={searchQuery}
               onChangeText={handleSearch}
               editable={false}
@@ -289,7 +298,7 @@ export default function MoviesScreen() {
             <TextInput
               style={styles.searchInput}
               placeholder={i18n.search.placeholder}
-              placeholderTextColor="#999"
+              placeholderTextColor={COLORS.TEXT_TERTIARY}
               value={searchQuery}
               onChangeText={handleSearch}
             />
@@ -325,8 +334,8 @@ export default function MoviesScreen() {
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Search movies..."
-            placeholderTextColor="#999"
+            placeholder={i18n.search.placeholder}
+            placeholderTextColor={COLORS.TEXT_TERTIARY}
             value={searchQuery}
             onChangeText={handleSearch}
           />
@@ -383,7 +392,6 @@ export default function MoviesScreen() {
         removeClippedSubviews={false}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
-        onEndReachedCalledDuringMomentum={false}
         maxToRenderPerBatch={20}
         updateCellsBatchingPeriod={30}
         initialNumToRender={20}
@@ -392,7 +400,7 @@ export default function MoviesScreen() {
           !searchQuery && movies.length > 0 ? (
             <View style={styles.featuredMovieContainer}>
               <FeaturedMovie
-                movie={movies[0]}
+                movie={movies[0] as MovieDetails}
                 onPress={handleFeaturedMoviePress}
                 onWatchlistToggle={handleFeaturedWatchlistToggle}
                 isInWatchlist={isFeaturedInWatchlist}
@@ -408,101 +416,101 @@ export default function MoviesScreen() {
 
 const styles = StyleSheet.create({
   headerSection: {
-    backgroundColor: '#667eea',
+    backgroundColor: COLORS.PRIMARY,
   },
   titleContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    backgroundColor: '#667eea',
+    paddingHorizontal: SPACING.XL - 4,
+    paddingVertical: SPACING.MD,
+    backgroundColor: COLORS.PRIMARY,
     alignItems: 'center',
   },
   titleText: {
-    fontSize: 42,
-    fontWeight: '800',
-    color: '#fff',
-    marginBottom: 8,
+    fontSize: TYPOGRAPHY.FONT_SIZE['4XL'] - 6,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.EXTRABOLD as '800',
+    color: COLORS.TEXT_LIGHT,
+    marginBottom: SPACING.SM,
     letterSpacing: -0.5,
     textAlign: 'center',
   },
   subtitleText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'rgba(255, 255, 255, 0.95)',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM as '500',
+    color: COLORS.TEXT_LIGHT,
     textAlign: 'center',
   },
   watchlistLink: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginVertical: 8,
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.SM,
+    marginVertical: SPACING.SM,
     alignSelf: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.MD,
   },
   watchlistLinkText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#fff',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD as '600',
+    color: COLORS.TEXT_LIGHT,
   },
   searchContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: '#fff',
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.SM,
+    backgroundColor: COLORS.TEXT_LIGHT,
     alignItems: 'center',
   },
   searchInput: {
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: SPACING.XL - 4,
     paddingVertical: 14,
-    borderRadius: 28,
-    backgroundColor: '#f5f5f5',
-    fontSize: 16,
-    color: '#333',
+    borderRadius: BORDER_RADIUS.FULL,
+    backgroundColor: COLORS.BG_LIGHT,
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    color: COLORS.TEXT_PRIMARY,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
+    borderColor: COLORS.SECONDARY,
   },
   categoryContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.TEXT_LIGHT,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: COLORS.SECONDARY,
   },
   categoryContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.LG,
     gap: 12,
     justifyContent: 'center',
   },
   categoryButton: {
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.XL,
     paddingVertical: 11,
-    borderRadius: 24,
-    backgroundColor: '#fff',
+    borderRadius: BORDER_RADIUS.FULL,
+    backgroundColor: COLORS.TEXT_LIGHT,
     borderWidth: 2,
-    borderColor: '#e0e0e0',
+    borderColor: COLORS.SECONDARY,
     height: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 0,
   },
   categoryButtonActive: {
-    backgroundColor: '#667eea',
-    borderColor: '#667eea',
+    backgroundColor: COLORS.PRIMARY,
+    borderColor: COLORS.PRIMARY,
   },
   categoryButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: TYPOGRAPHY.FONT_SIZE.MD,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD as '600',
+    color: COLORS.TEXT_PRIMARY,
   },
   categoryButtonTextActive: {
-    color: '#fff',
+    color: COLORS.TEXT_LIGHT,
   },
   featuredMovieContainer: {
-    marginBottom: 24,
+    marginBottom: SPACING.XL,
   },
   contentContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.MD,
+    paddingVertical: SPACING.MD,
     gap: 12,
-    paddingBottom: 24,
+    paddingBottom: SPACING.XL,
   },
   cardWrapper: {
     flex: 1,
@@ -517,58 +525,58 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 12,
+    gap: SPACING.MD,
   },
   loadingText: {
-    fontSize: 15,
-    color: '#667eea',
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.FONT_SIZE.MD,
+    color: COLORS.PRIMARY,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD as '600',
   },
   footerLoader: {
-    paddingVertical: 16,
+    paddingVertical: SPACING.LG,
     justifyContent: 'center',
     alignItems: 'center',
   },
   emptyText: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#333',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XL - 1,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD as '700',
+    color: COLORS.TEXT_PRIMARY,
   },
   emptySubtext: {
-    fontSize: 15,
-    color: '#999',
+    fontSize: TYPOGRAPHY.FONT_SIZE.MD,
+    color: COLORS.TEXT_TERTIARY,
   },
   errorContainer: {
-    marginHorizontal: 16,
-    marginVertical: 12,
-    padding: 16,
-    backgroundColor: 'rgba(255, 200, 200, 0.1)',
-    borderRadius: 12,
+    marginHorizontal: SPACING.LG,
+    marginVertical: SPACING.MD,
+    padding: SPACING.LG,
+    backgroundColor: COLORS.ERROR_SOFT_BG,
+    borderRadius: BORDER_RADIUS.LG,
     borderWidth: 2,
-    borderColor: '#ffb3b3',
+    borderColor: COLORS.ERROR_BORDER,
   },
   error: {
-    color: '#d32f2f',
-    fontSize: 15,
-    marginBottom: 12,
-    fontWeight: '600',
+    color: COLORS.ERROR,
+    fontSize: TYPOGRAPHY.FONT_SIZE.MD,
+    marginBottom: SPACING.MD,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD as '600',
   },
   retryButton: {
     alignSelf: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: SPACING.XL - 4,
     paddingVertical: 10,
-    backgroundColor: '#d32f2f',
-    borderRadius: 8,
+    backgroundColor: COLORS.ERROR,
+    borderRadius: BORDER_RADIUS.MD,
   },
   retryButtonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
+    color: COLORS.TEXT_LIGHT,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD as '700',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
   },
   container: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#667eea',
+    backgroundColor: COLORS.PRIMARY,
   },
 });

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { MovieDetail } from '@repo/ui';
+import { MovieDetail, COLORS, SPACING, TYPOGRAPHY } from '@repo/ui';
 import {
   fetchMovieDetails,
   clearSelectedMovie,
@@ -66,7 +66,7 @@ export default function MovieDetailScreen() {
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#667eea" />
+        <ActivityIndicator size="large" color={COLORS.PRIMARY} />
         <Text style={styles.loadingText}>Loading movie details...</Text>
       </View>
     );
@@ -104,21 +104,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 12,
+    gap: SPACING.MD,
   },
   loadingText: {
-    fontSize: 14,
-    color: '#999',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    color: COLORS.TEXT_TERTIARY,
   },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.LG,
   },
   error: {
-    fontSize: 16,
-    color: '#c33',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    color: COLORS.ERROR,
     textAlign: 'center',
   },
   emptyContainer: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    color: COLORS.TEXT_PRIMARY,
   },
 });

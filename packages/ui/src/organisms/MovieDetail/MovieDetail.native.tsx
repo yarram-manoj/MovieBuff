@@ -10,7 +10,15 @@ import {
 import { MovieDetails } from '@repo/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMovieClient } from '../../shared/hooks';
-import { CAST_DISPLAY_LIMIT, IMAGE_SIZES } from '../../shared/constants';
+import {
+  CAST_DISPLAY_LIMIT,
+  IMAGE_SIZES,
+  COLORS,
+  SPACING,
+  BORDER_RADIUS,
+  TYPOGRAPHY,
+  DESIGN_TOKENS,
+} from '../../shared/constants';
 import { WatchlistButton } from '../../atoms/WatchlistButton/WatchlistButton.native';
 
 export interface MovieDetailProps {
@@ -178,7 +186,7 @@ MovieDetail.displayName = 'MovieDetail';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.TEXT_LIGHT,
   },
   scrollView: {
     flex: 1,
@@ -193,77 +201,77 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.LG,
+    paddingVertical: SPACING.MD,
   },
   backButton: {
-    padding: 12,
+    padding: SPACING.MD,
   },
   backText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#007AFF',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.INFO,
   },
   content: {
-    paddingHorizontal: 16,
-    paddingBottom: 32,
+    paddingHorizontal: SPACING.LG,
+    paddingBottom: SPACING['2XL'],
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#222',
+    fontSize: TYPOGRAPHY.FONT_SIZE['2XL'],
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    marginBottom: SPACING.MD,
+    color: COLORS.TEXT_PRIMARY,
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: SPACING.XL - 4,
   },
   rating: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginRight: 16,
-    color: '#FFB800',
+    fontSize: TYPOGRAPHY.FONT_SIZE.LG,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    marginRight: SPACING.LG,
+    color: COLORS.RATING,
   },
   releaseDate: {
-    fontSize: 14,
-    color: '#777',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    color: COLORS.TEXT_SECONDARY,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginTop: 24,
-    marginBottom: 12,
-    color: '#222',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XL,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    marginTop: SPACING.XL,
+    marginBottom: SPACING.MD,
+    color: COLORS.TEXT_PRIMARY,
   },
   overview: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
     lineHeight: 22,
-    color: '#555',
+    color: COLORS.TEXT_SECONDARY,
   },
   detailsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 16,
+    marginTop: SPACING.LG,
     marginHorizontal: -8,
   },
   detailItem: {
     width: '50%',
     paddingHorizontal: 8,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: '#f5f5f5',
-    marginBottom: 8,
+    paddingVertical: SPACING.SM,
+    borderRadius: BORDER_RADIUS.MD,
+    backgroundColor: COLORS.BG_LIGHT,
+    marginBottom: SPACING.SM,
   },
   detailLabel: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    color: COLORS.TEXT_TERTIARY,
     marginBottom: 4,
   },
   detailValue: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#222',
+    fontSize: TYPOGRAPHY.FONT_SIZE.BASE,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.TEXT_PRIMARY,
   },
   genres: {
     flexDirection: 'row',
@@ -271,16 +279,16 @@ const styles = StyleSheet.create({
     marginHorizontal: -6,
   },
   genreTag: {
-    backgroundColor: '#E8F4F8',
+    backgroundColor: DESIGN_TOKENS.color.brand[50],
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 12,
+    borderRadius: BORDER_RADIUS.LG,
     margin: 6,
   },
   genreText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#0066CC',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.INFO,
   },
   castContainer: {
     flexDirection: 'row',
@@ -288,15 +296,15 @@ const styles = StyleSheet.create({
   },
   castMember: {
     width: 100,
-    marginRight: 12,
+    marginRight: SPACING.MD,
   },
   castImageContainer: {
     width: 100,
     height: 100,
-    borderRadius: 8,
+    borderRadius: BORDER_RADIUS.MD,
     overflow: 'hidden',
-    marginBottom: 8,
-    backgroundColor: '#e0e0e0',
+    marginBottom: SPACING.SM,
+    backgroundColor: COLORS.SECONDARY,
   },
   castImage: {
     width: '100%',
@@ -308,20 +316,20 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: COLORS.SECONDARY,
   },
   castPlaceholderText: {
-    fontSize: 10,
-    color: '#999',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS - 2,
+    color: COLORS.TEXT_TERTIARY,
   },
   castName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#222',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: 2,
   },
   castCharacter: {
-    fontSize: 11,
-    color: '#777',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS - 1,
+    color: COLORS.TEXT_SECONDARY,
   },
 });

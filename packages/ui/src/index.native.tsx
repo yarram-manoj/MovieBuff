@@ -26,3 +26,19 @@ export {
 } from './organisms/index.native';
 export { i18n, getLocale, type Locale } from './shared/i18n';
 export { ICONS, ASSET_PATHS, getIcon, type IconName } from './shared/assets';
+export {
+  UIThemeProvider,
+  useUITheme,
+  type UIThemeProviderProps,
+  type ThemeMode,
+} from './shared/theme';
+export {
+  LIGHT_THEME,
+  DARK_THEME,
+  DESIGN_TOKENS,
+  APP_CONSTANTS,
+  COLORS,
+  TYPOGRAPHY,
+  SPACING,
+  BORDER_RADIUS,
+} from './shared/constants';

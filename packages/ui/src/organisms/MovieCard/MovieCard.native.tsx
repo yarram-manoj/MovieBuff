@@ -2,7 +2,13 @@ import * as React from 'react';
 import { Text, Pressable, StyleSheet, Image, View } from 'react-native';
 import { Movie } from '@repo/api';
 import { useMovieClient } from '../../shared/hooks';
-import { IMAGE_SIZES } from '../../shared/constants';
+import {
+  IMAGE_SIZES,
+  COLORS,
+  BORDER_RADIUS,
+  SPACING,
+  TYPOGRAPHY,
+} from '../../shared/constants';
 
 export interface MovieCardProps {
   movie: Movie;
@@ -61,11 +67,11 @@ MovieCard.displayName = 'MovieCard';
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.XL,
     overflow: 'hidden',
-    marginHorizontal: 4,
-    marginVertical: 6,
-    backgroundColor: '#fff',
+    marginHorizontal: SPACING.XS,
+    marginVertical: SPACING.SM - 2,
+    backgroundColor: COLORS.TEXT_LIGHT,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: '100%',
     aspectRatio: 2 / 3,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: COLORS.SECONDARY,
     overflow: 'hidden',
   },
   poster: {
@@ -93,45 +99,45 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: COLORS.SECONDARY,
   },
   placeholderText: {
-    color: '#bbb',
-    fontSize: 12,
-    fontWeight: '600',
+    color: COLORS.TEXT_TERTIARY,
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
   },
   content: {
-    padding: 12,
-    paddingTop: 10,
-    backgroundColor: '#fff',
+    padding: SPACING.MD,
+    paddingTop: SPACING.SM + 2,
+    backgroundColor: COLORS.TEXT_LIGHT,
   },
   title: {
-    fontSize: 13,
-    fontWeight: '700',
-    marginBottom: 8,
-    color: '#1a1a1a',
+    fontSize: TYPOGRAPHY.FONT_SIZE.SM,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    marginBottom: SPACING.SM,
+    color: COLORS.TEXT_PRIMARY,
     lineHeight: 17,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 6,
+    gap: SPACING.SM - 2,
   },
   date: {
-    fontSize: 12,
-    color: '#999',
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    color: COLORS.TEXT_TERTIARY,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
   },
   rating: {
-    backgroundColor: '#FFB800',
-    paddingHorizontal: 8,
+    backgroundColor: COLORS.RATING,
+    paddingHorizontal: SPACING.SM,
     paddingVertical: 4,
-    borderRadius: 10,
+    borderRadius: BORDER_RADIUS.LG - 2,
   },
   ratingText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#fff',
+    fontSize: TYPOGRAPHY.FONT_SIZE.XS,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    color: COLORS.TEXT_LIGHT,
   },
 });

@@ -4,6 +4,44 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-brand-primary: #667eea;
+  --color-brand-primary-hover: #5568d3;
+  --color-brand-primary-dark: #4c51bf;
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-tertiary: #f5f5f5;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-text-inverse: #ffffff;
+  --color-border-subtle: #f0f0f0;
+  --color-border-default: #dddddd;
+  --color-border-strong: #cccccc;
+  --color-rating: #ffb800;
+  --color-error: #d32f2f;
+  --overlay-light: rgba(255, 255, 255, 0.2);
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+}
+
+[data-theme='dark'] {
+  --color-bg-primary: #0f0f1e;
+  --color-bg-secondary: #17172b;
+  --color-bg-tertiary: #1f1f38;
+  --color-text-primary: #f5f7ff;
+  --color-text-secondary: #c7cbe0;
+  --color-text-tertiary: #9ca3bf;
+  --color-text-inverse: #111111;
+  --color-border-subtle: #2a2a44;
+  --color-border-default: #35355a;
+  --color-border-strong: #484878;
+}
+
 /* React Native Web setup: Full-screen layout */
 html {
   width: 100%;
@@ -19,8 +57,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
   /* Enable scrolling for web content */
   overflow-y: auto;
 }

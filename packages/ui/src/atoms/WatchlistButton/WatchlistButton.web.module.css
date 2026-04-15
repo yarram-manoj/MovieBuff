@@ -9,8 +9,8 @@
 }
 
 .inWatchlist {
-  background-color: #fbbf24;
-  color: #1f2937;
+  background-color: var(--color-rating);
+  color: var(--color-text-primary);
 }
 
 .inWatchlist:hover {
@@ -19,8 +19,8 @@
 }
 
 .notInWatchlist {
-  background-color: #e5e7eb;
-  color: #6b7280;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
 }
 
 .notInWatchlist:hover {

@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COMPONENT_STYLES, SPACING, TYPOGRAPHY, COLORS } from '../../shared/constants';
+import {
+  COMPONENT_STYLES,
+  SPACING,
+  TYPOGRAPHY,
+  COLORS,
+  BORDER_RADIUS,
+} from '../../shared/constants';
 
 export interface RatingProps {
   rating: number;
@@ -31,15 +37,15 @@ const styles = StyleSheet.create({
     gap: SPACING.MD,
   },
   ratingBadge: {
-    backgroundColor: COLORS.SUCCESS,
+    backgroundColor: COLORS.PRIMARY,
     paddingHorizontal: SPACING.SM * 2,
     paddingVertical: SPACING.XS,
-    borderRadius: 6,
+    borderRadius: BORDER_RADIUS.SM,
     alignItems: 'center',
     justifyContent: 'center',
   },
   ratingText: {
-    color: '#fff',
+    color: COLORS.TEXT_LIGHT,
     fontSize: TYPOGRAPHY.FONT_SIZE.SM,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
   },

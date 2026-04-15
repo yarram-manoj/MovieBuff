@@ -1,4 +1,5 @@
 import React from 'react';
+import { COLORS, SPACING, BORDER_RADIUS, TYPOGRAPHY } from '../../shared/constants';
 
 export interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -78,38 +79,38 @@ function RawErrorFallback({ error }: { error: Error | null }): React.ReactNode {
 
 const errorStyles: Record<string, React.CSSProperties> = {
   container: {
-    padding: '20px',
-    margin: '20px',
+    padding: `${SPACING.XL - 4}px`,
+    margin: `${SPACING.XL - 4}px`,
     backgroundColor: '#fef2f2',
     border: '1px solid #fee2e2',
-    borderRadius: '8px',
+    borderRadius: `${BORDER_RADIUS.MD}px`,
     fontFamily: 'system-ui, -apple-system, sans-serif',
   },
   title: {
-    color: '#991b1b',
+    color: COLORS.ERROR,
     marginTop: 0,
     marginBottom: '12px',
-    fontSize: '18px',
+    fontSize: `${TYPOGRAPHY.FONT_SIZE.XL}px`,
   },
   details: {
     marginBottom: '12px',
   },
   summary: {
     cursor: 'pointer',
-    color: '#7f1d1d',
+    color: COLORS.ERROR,
     fontWeight: 600,
   },
   pre: {
     backgroundColor: '#fecaca',
     padding: '12px',
-    borderRadius: '4px',
+    borderRadius: `${BORDER_RADIUS.SM}px`,
     overflow: 'auto',
     fontSize: '12px',
     lineHeight: '1.4',
   },
   hint: {
-    color: '#991b1b',
+    color: COLORS.ERROR,
     marginBottom: 0,
-    fontSize: '14px',
+    fontSize: `${TYPOGRAPHY.FONT_SIZE.BASE}px`,
   },
 };

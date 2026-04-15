@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from '@repo/store';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { COLORS, TYPOGRAPHY } from '@repo/ui';
 
 export default function RootLayout() {
   return (
@@ -11,12 +12,12 @@ export default function RootLayout() {
         initialRouteName="splash"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#667eea',
+            backgroundColor: COLORS.PRIMARY,
           },
-          headerTintColor: '#fff',
+          headerTintColor: COLORS.TEXT_LIGHT,
           headerTitleStyle: {
-            fontWeight: '600',
-            fontSize: 18,
+            fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD as '600',
+            fontSize: TYPOGRAPHY.FONT_SIZE.XL,
           },
           headerBackTitle: 'Back',
         }}

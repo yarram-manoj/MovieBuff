@@ -2,7 +2,6 @@
 
 import { Provider } from 'react-redux';
 import { store } from '@repo/store';
-import { ErrorBoundary } from '@repo/ui';
 import '../styles/global.css';
 
 export default function RootLayout({
@@ -11,16 +10,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
         <div id="root">
-          <ErrorBoundary>
-            <Provider store={store}>{children}</Provider>
-          </ErrorBoundary>
+          <Provider store={store}>{children}</Provider>
         </div>
       </body>
     </html>
