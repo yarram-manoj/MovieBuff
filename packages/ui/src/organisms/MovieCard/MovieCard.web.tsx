@@ -28,6 +28,20 @@ export const MovieCard = React.memo<MovieCardProps>(
       onPress?.(movie);
     }, [movie, onPress]);
 
+    const releaseYear = React.useMemo(() => {
+      if (!movie.release_date) return 'N/A';
+      const parsed = new Date(movie.release_date);
+      const year = parsed.getFullYear();
+      return Number.isFinite(year) ? String(year) : 'N/A';
+    }, [movie.release_date]);
+
+    const ratingValue = React.useMemo(() => {
+      if (typeof movie.vote_average !== 'number') return '0.0';
+      return Number.isFinite(movie.vote_average)
+        ? movie.vote_average.toFixed(1)
+        : '0.0';
+    }, [movie.vote_average]);
+
     return (
       <button
         className={styles.card}
@@ -55,13 +69,9 @@ export const MovieCard = React.memo<MovieCardProps>(
             {movie.title}
           </h3>
           <div className={styles.footer}>
-            <span className={styles.date}>
-              {new Date(movie.release_date).getFullYear()}
-            </span>
+            <span className={styles.date}>{releaseYear}</span>
             <div className={styles.rating}>
-              <span className={styles.ratingText}>
-                ★ {movie.vote_average.toFixed(1)}
-              </span>
+              <span className={styles.ratingText}>★ {ratingValue}</span>
             </div>
           </div>
         </div>

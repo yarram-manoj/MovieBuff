@@ -3,11 +3,19 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { FeaturedMovie, MovieCard, i18n } from '@repo/ui';
+import { ErrorBoundary, FeaturedMovie, MovieCard, i18n } from '@repo/ui';
 import { fetchMovies, searchMovies, addToWatchlist, removeFromWatchlist } from '@repo/store';
 import type { AppDispatch, RootState } from '@repo/store';
 import type { MovieDetails } from '@repo/api';
 import styles from '../../styles/movies.module.css';
+
+function DemoCrashTrigger({ shouldCrash }: { shouldCrash: boolean }) {
+  if (shouldCrash) {
+    throw new Error('Manual ErrorBoundary demo crash from Browse page');
+  }
+
+  return null;
+}
 
 export default function BrowseMoviesPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +32,9 @@ export default function BrowseMoviesPage() {
   >('popular');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [shouldCrashDemo, setShouldCrashDemo] = useState(false);
   const initialFetchDoneRef = useRef(false);
+  const isDevMode = process.env.NODE_ENV !== 'production';
 
   // Load movies on component mount and when category changes
   useEffect(() => {
@@ -132,6 +142,26 @@ export default function BrowseMoviesPage() {
         </div>
         <p className={styles.subtitle}>{i18n.app.subtitle}</p>
       </header>
+
+      {/* {isDevMode && (
+        <ErrorBoundary>
+          <section className={styles.demoPanel}>
+            <p className={styles.demoTitle}>ErrorBoundary Demo (dev only)</p>
+            <p className={styles.demoDescription}>
+              Click this button to throw a controlled render error and verify
+              fallback UI behavior.
+            </p>
+            <button
+              type="button"
+              className={styles.demoButton}
+              onClick={() => setShouldCrashDemo(true)}
+            >
+              Trigger Crash
+            </button>
+            <DemoCrashTrigger shouldCrash={shouldCrashDemo} />
+          </section>
+        </ErrorBoundary>
+      )} */}
 
       {/* Featured Movie Section */}
       {!searchQuery && movies.length > 0 && (
