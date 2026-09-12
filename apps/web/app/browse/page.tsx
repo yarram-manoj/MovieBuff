@@ -143,7 +143,7 @@ export default function BrowseMoviesPage() {
         <p className={styles.subtitle}>{i18n.app.subtitle}</p>
       </header>
 
-      {/* {isDevMode && (
+      {isDevMode && (
         <ErrorBoundary>
           <section className={styles.demoPanel}>
             <p className={styles.demoTitle}>ErrorBoundary Demo (dev only)</p>
@@ -161,7 +161,7 @@ export default function BrowseMoviesPage() {
             <DemoCrashTrigger shouldCrash={shouldCrashDemo} />
           </section>
         </ErrorBoundary>
-      )} */}
+      )}
 
       {/* Featured Movie Section */}
       {!searchQuery && movies.length > 0 && (
